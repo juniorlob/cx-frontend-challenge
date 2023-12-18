@@ -1,0 +1,35 @@
+.input {
+  all: unset;
+  background-color: var(--white);
+  width: 100%;
+  padding: 10px 60px 10px 15px;
+  border: 1px solid var(--white);
+}
+
+.input:focus {
+  border: 1px solid var(--light-blue);
+}
+
+.wrapper {
+  display: flex;
+  position: relative;
+}
+
+.endAdornment {
+  background-color: var(--light-gray);
+  padding: 10px;
+  position: absolute;
+  margin: 1px;
+  right: 0px;
+  /* left: 10px; */
+  top: 0;
+  bottom: 0;
+  display: flex;
+}
+.endAdornment::before {
+  color: var(--text-secondary);
+  content: var(--search-o);
+  font-family: 'Navigation';
+  display: block;
+  margin: auto;
+}

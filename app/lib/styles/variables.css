@@ -1,0 +1,18 @@
+:root {
+  /* Background colors */
+  --background-body: #ededed;
+  --white: #ffffff;
+
+  --light-green: #00a650;
+  --light-blue: #3483fa;
+
+  /* Text colors */
+  --text-primary: #333;
+  --text-secondary: #666;
+
+  --primary: #fff159;
+
+  --light-gray: #eeeeee;
+
+  --container: 1044px;
+}

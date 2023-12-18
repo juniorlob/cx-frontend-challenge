@@ -1,14 +1,14 @@
-import { render, screen } from "@testing-library/react";
-import Home from "@/pages/index";
+import { render, screen } from '@testing-library/react'
+import Home from '@/pages'
 
-describe("Home", () => {
-  it("renders the default Next.js page", () => {
-    render(<Home />);
+describe('Home', () => {
+  it('renders the default Next.js page', () => {
+    render(<Home />)
 
-    const logo = screen.getByRole("img", {
+    const logo = screen.getByRole('img', {
       name: /Vercel Logo/i,
-    });
+    })
 
-    expect(logo).toBeInTheDocument();
-  });
-});
+    expect(logo).toBeInTheDocument()
+  })
+})

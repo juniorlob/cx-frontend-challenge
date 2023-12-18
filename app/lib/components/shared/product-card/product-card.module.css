@@ -1,0 +1,49 @@
+.card {
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+  margin-bottom: 1rem;
+  display: flex;
+}
+
+.thumbnailWrapper {
+  width: 160px;
+  height: 160px;
+}
+
+.thumbnail {
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+}
+
+.details {
+  padding: 1rem;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.price {
+  color: #2a9d8f;
+  font-weight: bold;
+}
+
+.installments {
+  color: #264653;
+  font-size: 0.875rem;
+}
+
+.link {
+  color: #e76f51;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.freeShipping {
+  color: #2a9d8f;
+  font-size: 0.875rem;
+}
