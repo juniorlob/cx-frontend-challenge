@@ -1,9 +1,5 @@
 .card {
-  border: 1px solid #e1e1e1;
   border-radius: 8px;
-  overflow: hidden;
-  background-color: #fff;
-  margin-bottom: 1rem;
   display: flex;
 }
 
@@ -28,8 +24,8 @@
 }
 
 .price {
-  color: #2a9d8f;
-  font-weight: bold;
+  color: var(--text-primary);
+  font-weight: normal;
 }
 
 .installments {

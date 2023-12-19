@@ -7,6 +7,7 @@ import { Input } from '@/lib/components/shared'
 import ProductCard from '@/lib/components/shared/product-card'
 import { useEffect, useState } from 'react'
 import { SearchResult } from '@/lib/models/search.model'
+import { useDebounce } from '@/lib/hooks/useDebounce'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,15 +21,9 @@ const API_ROUTE = 'https://api.mercadolibre.com/sites/MLA/search'
 interface Filters {
   [key: string]: string
 }
-const queryParams = new Map(
-  [
-    ['q', 'milho'],
-    ['order', 'desc'],
-    ['sort', 'price'],
-    ['limit', 10],
-  ].map(([key, value]) => [key, value])
-)
-const apiRoute = (route: string, params: Map<string, string | number>) => {
+const queryParams = { q: '', order: 'desc', sort: 'price', limit: 10 }
+
+const apiRoute = (route: string, params: {}) => {
   const url = new URL(route)
   const urlParams = new URLSearchParams(params)
   url.search = urlParams.toString()
@@ -36,30 +31,31 @@ const apiRoute = (route: string, params: Map<string, string | number>) => {
 }
 
 export default function Home() {
-  const [products, setProducts] = useState<SearchResult | null>()
+  const [products, setProducts] = useState<SearchResult>()
 
-  const [filters, setFilters] =
-    useState<Map<string, string | number>>(queryParams)
+  const [filters, setFilters] = useState(queryParams)
 
-  const onFiltersChange = (filter) => {
-    const [[param, value]] = Object.entries(filter)
-
-    setFilters((prev) => new Map([...prev]).set(param, value))
-  }
+  const debouncedFilters = useDebounce(filters, 300)
 
   useEffect(() => {
-    ;(async function () {
-      try {
-        const response = await fetch(apiRoute(API_ROUTE, filters))
-        const data = await response.json()
-        const searchResults = new SearchResult(data)
+    fetchData(debouncedFilters)
+  }, [debouncedFilters])
 
-        setProducts(searchResults)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    })()
-  }, [filters])
+  const fetchData = async (appliedFilters) => {
+    try {
+      const response = await fetch(apiRoute(API_ROUTE, appliedFilters))
+      const data = await response.json()
+      const searchResults = new SearchResult(data)
+
+      setProducts(searchResults)
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
+  }
+
+  const onFiltersChange = (filter) =>
+    setFilters((prev) => ({ ...prev, ...filter }))
+  console.log({ products })
   return (
     <>
       <Head>
@@ -73,7 +69,7 @@ export default function Home() {
           <Input name="q" endAdornment onChange={onFiltersChange} />
         </Header>
 
-        {products?.results?.size > 0 &&
+        {!!(products?.results.size && products.results.size > 0) &&
           Array.from(products.results.entries()).map(([id, product]) => (
             <ProductCard key={product.id} product={product} />
           ))}
