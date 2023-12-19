@@ -1,5 +1,6 @@
 .header {
   padding: 10px;
+  margin-bottom: calc(var(--spacer) * 8);
   background-color: var(--primary);
   display: flex;
   justify-content: center;

@@ -1,12 +1,10 @@
 :root {
-  /* Background colors */
-  --background-body: #ededed;
+  --body-background: #eeeeee;
   --white: #ffffff;
 
   --light-green: #00a650;
   --light-blue: #3483fa;
 
-  /* Text colors */
   --text-primary: #333;
   --text-secondary: #666;
 
@@ -14,5 +12,10 @@
 
   --light-gray: #eeeeee;
 
+  --spacer: 8px;
+  --border-radius: calc(var(--spacer) * 0.5);
   --container: 1044px;
+
+  --shadow-sm: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px,
+    rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
 }

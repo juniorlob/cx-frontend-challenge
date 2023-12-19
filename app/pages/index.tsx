@@ -1,13 +1,14 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-import styles from '@/lib/styles/home.module.css'
+import styles from '@/pages/home.module.css'
 import Header from '@/lib/components/shared/header'
 import { Input } from '@/lib/components/shared'
 import ProductCard from '@/lib/components/shared/product-card'
 import { useEffect, useState } from 'react'
 import { SearchResult } from '@/lib/models/search.model'
 import { useDebounce } from '@/lib/hooks/useDebounce'
+import ProductList from '@/lib/components/shared/product-list'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -64,15 +65,17 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
+      <main className={inter.className}>
         <Header>
           <Input name="q" endAdornment onChange={onFiltersChange} />
         </Header>
-
-        {!!(products?.results.size && products.results.size > 0) &&
-          Array.from(products.results.entries()).map(([id, product]) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+        {!!(products?.results.size && products?.results.size > 0) && (
+          <section className={styles.productListSection}>
+            <div className={styles.productListWrapper}>
+              <ProductList products={products?.results} />
+            </div>
+          </section>
+        )}
       </main>
     </>
   )

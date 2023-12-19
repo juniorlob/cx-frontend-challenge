@@ -1,0 +1,12 @@
+.productList {
+  list-style: none;
+}
+
+.productListItem:not(:last-child)::after {
+  margin: calc(var(--spacer) * 4) calc(var(--spacer) * 3);
+  content: '';
+  display: block;
+  height: 1px;
+  width: 95%;
+  background-color: var(--light-gray);
+}

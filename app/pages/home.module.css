@@ -1,0 +1,13 @@
+.productListSection {
+  justify-content: center;
+  display: flex;
+  padding-bottom: calc(var(--spacer) * 8);
+}
+.productListWrapper {
+  width: 100%;
+  max-width: var(--container);
+  background-color: var(--white);
+  padding: calc(var(--spacer) * 3) calc(var(--spacer) * 2);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+}
