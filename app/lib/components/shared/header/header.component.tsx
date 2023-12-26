@@ -6,6 +6,7 @@ const LOGO_WIDTH = 106
 const LOGO_HEIGHT = 72
 const IMAGE_ASPECT = LOGO_WIDTH / LOGO_HEIGHT
 const NEW_SIZE = 0.8 / IMAGE_ASPECT
+
 const Header = ({ children }: HeaderProps): JSX.Element => {
   return (
     <header className={styles.header} role="banner">
