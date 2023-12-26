@@ -50,7 +50,7 @@
 }
 
 .endAdornment::before {
-  font-family: 'Navigation';
+  font-family: var(--icon-font);
   color: var(--text-secondary);
   content: var(--search-o);
   display: block;

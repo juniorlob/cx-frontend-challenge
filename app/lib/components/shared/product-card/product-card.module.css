@@ -40,6 +40,8 @@
   font-weight: normal;
   display: flex;
   gap: calc(var(--spacer) * 1);
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .installments {
@@ -104,5 +106,8 @@
   .details {
     padding: 0 calc(var(--spacer) * 1.5);
     gap: calc(var(--spacer) * 1);
+  }
+  .thumbnailWrapper {
+    padding-left: calc(var(--spacer) * 1.5);
   }
 }
