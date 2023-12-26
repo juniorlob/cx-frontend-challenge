@@ -7,55 +7,14 @@ import { Input } from '@/lib/components/shared'
 import ProductCard from '@/lib/components/shared/product-card'
 import { useEffect, useState } from 'react'
 import { SearchResult } from '@/lib/models/search.model'
-import { useDebounce } from '@/lib/hooks/useDebounce'
+import { useDebounce } from '@/lib/hooks/use-debounce'
 import ProductList from '@/lib/components/shared/product-list'
+import { useProductsList } from '@/lib/contexts/product-list/product-list.hooks'
 
 const inter = Inter({ subsets: ['latin'] })
 
-const objectToURLParams = (object: any) => {
-  return Object.entries(object)
-    .map(([key, value]) => `${key}=${value}`)
-    .join('&')
-}
-
-const API_ROUTE = 'https://api.mercadolibre.com/sites/MLA/search'
-interface Filters {
-  [key: string]: string
-}
-const queryParams = { q: '', order: 'desc', sort: 'price', limit: 10 }
-
-const apiRoute = (route: string, params: {}) => {
-  const url = new URL(route)
-  const urlParams = new URLSearchParams(params)
-  url.search = urlParams.toString()
-  return url.href
-}
-
 export default function Home() {
-  const [products, setProducts] = useState<SearchResult>()
-
-  const [filters, setFilters] = useState(queryParams)
-
-  const debouncedFilters = useDebounce(filters, 300)
-
-  useEffect(() => {
-    fetchData(debouncedFilters)
-  }, [debouncedFilters])
-
-  const fetchData = async (appliedFilters) => {
-    try {
-      const response = await fetch(apiRoute(API_ROUTE, appliedFilters))
-      const data = await response.json()
-      const searchResults = new SearchResult(data)
-
-      setProducts(searchResults)
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    }
-  }
-
-  const onFiltersChange = (filter) =>
-    setFilters((prev) => ({ ...prev, ...filter }))
+  const { products, refetch, onFiltersChange } = useProductsList()
 
   return (
     <>
@@ -70,7 +29,7 @@ export default function Home() {
           <form
             onSubmit={(event) => {
               event.preventDefault()
-              fetchData(filters)
+              refetch()
             }}
           >
             <Input
@@ -81,10 +40,10 @@ export default function Home() {
             />
           </form>
         </Header>
-        {!!(products?.results.size && products?.results.size > 0) && (
+        {!!(products.size > 0) && (
           <section className={styles.productListSection}>
             <div className={styles.productListWrapper}>
-              <ProductList products={products?.results} />
+              <ProductList products={products} />
             </div>
           </section>
         )}

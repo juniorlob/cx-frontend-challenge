@@ -29,7 +29,7 @@ type PriceType = {
   decimals: number
 }
 
-type ProductType = {
+export type ProductType = {
   id: string
   title: string
   condition: string
