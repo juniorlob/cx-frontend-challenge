@@ -56,7 +56,7 @@ export default function Home() {
 
   const onFiltersChange = (filter) =>
     setFilters((prev) => ({ ...prev, ...filter }))
-  console.log({ products })
+
   return (
     <>
       <Head>
@@ -67,7 +67,19 @@ export default function Home() {
       </Head>
       <main className={inter.className}>
         <Header>
-          <Input name="q" endAdornment onChange={onFiltersChange} />
+          <form
+            onSubmit={(event) => {
+              event.preventDefault()
+              fetchData(filters)
+            }}
+          >
+            <Input
+              name="q"
+              type="search"
+              endAdornment
+              onChange={onFiltersChange}
+            />
+          </form>
         </Header>
         {!!(products?.results.size && products?.results.size > 0) && (
           <section className={styles.productListSection}>

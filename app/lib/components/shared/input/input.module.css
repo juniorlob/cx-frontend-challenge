@@ -1,35 +1,58 @@
 .input {
   all: unset;
-  background-color: var(--white);
   width: 100%;
   padding: 10px 60px 10px 15px;
-  border: 1px solid var(--white);
 }
 
 .input:focus {
-  border: 1px solid var(--light-blue);
+  outline: 1px solid var(--light-blue);
+}
+
+/* clears the ‘X’ from Internet Explorer */
+.input[type='search']::-ms-clear {
+  display: none;
+  width: 0;
+  height: 0;
+}
+.input[type='search']::-ms-reveal {
+  display: none;
+  width: 0;
+  height: 0;
+}
+/* clears the ‘X’ from Chrome */
+.input[type='search']::-webkit-search-decoration,
+.input[type='search']::-webkit-search-cancel-button,
+.input[type='search']::-webkit-search-results-button,
+.input[type='search']::-webkit-search-results-decoration {
+  display: none;
 }
 
 .wrapper {
   display: flex;
   position: relative;
+  background-color: var(--white);
 }
 
 .endAdornment {
+  all: unset;
   background-color: var(--light-gray);
   padding: 10px;
   position: absolute;
-  margin: 1px;
   right: 0px;
-  /* left: 10px; */
   top: 0;
   bottom: 0;
   display: flex;
+  cursor: pointer;
 }
+
+.endAdornment:focus {
+  outline: 1px solid var(--light-blue);
+}
+
 .endAdornment::before {
+  font-family: 'Navigation';
   color: var(--text-secondary);
   content: var(--search-o);
-  font-family: 'Navigation';
   display: block;
   margin: auto;
 }

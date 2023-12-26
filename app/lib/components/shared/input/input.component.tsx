@@ -1,7 +1,12 @@
 import styles from './input.module.css'
 import { InputProps } from './input.types'
 
-const Input = ({ endAdornment, name, onChange }: InputProps): JSX.Element => {
+const Input = ({
+  endAdornment,
+  name,
+  type,
+  onChange,
+}: InputProps): JSX.Element => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.({ [name]: event.target.value })
   }
@@ -10,12 +15,12 @@ const Input = ({ endAdornment, name, onChange }: InputProps): JSX.Element => {
     <div className={styles.wrapper}>
       <input
         name={name}
-        type="text"
+        type={type}
         onChange={handleChange}
         className={styles.input}
       />
       {endAdornment && (
-        <div className={styles.endAdornment}>{endAdornment}</div>
+        <button className={styles.endAdornment}>{endAdornment}</button>
       )}
     </div>
   )
