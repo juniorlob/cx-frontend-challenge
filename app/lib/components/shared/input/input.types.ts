@@ -3,4 +3,5 @@ export type InputProps = {
   onChange?: (data: { [key: string]: string }) => void
   name: string
   type: string
+  defaultValue?: string
 }

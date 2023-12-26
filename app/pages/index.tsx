@@ -1,20 +1,26 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/pages/home.module.css'
 import Header from '@/lib/components/shared/header'
 import { Input } from '@/lib/components/shared'
-import ProductCard from '@/lib/components/shared/product-card'
-import { useEffect, useState } from 'react'
-import { SearchResult } from '@/lib/models/search.model'
-import { useDebounce } from '@/lib/hooks/use-debounce'
+import { ProductType } from '@/lib/models/search.model'
 import ProductList from '@/lib/components/shared/product-list'
 import { useProductsList } from '@/lib/contexts/product-list/product-list.hooks'
+import { productRequests } from '@/lib/services/product-list-requests.service'
+import { GetServerSidePropsContext } from 'next'
+import { ProductFilter } from '@/lib/contexts/product-list/product-list.types'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
-  const { products, refetch, onFiltersChange } = useProductsList()
+type Props = {
+  initialProducts: ProductType[]
+  initialFilters: ProductFilter
+}
+export default function Home({ initialProducts, initialFilters }: Props) {
+  const { products, refetch, onFiltersChange } = useProductsList({
+    initialProducts,
+    initialFilters,
+  })
 
   return (
     <>
@@ -35,6 +41,7 @@ export default function Home() {
             <Input
               name="q"
               type="search"
+              defaultValue={initialFilters.q}
               endAdornment
               onChange={onFiltersChange}
             />
@@ -50,4 +57,13 @@ export default function Home() {
       </main>
     </>
   )
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { query } = context
+  const data = await productRequests.search(query)
+
+  return {
+    props: { initialProducts: data?.results, initialFilters: query },
+  }
 }

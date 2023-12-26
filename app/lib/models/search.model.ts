@@ -40,6 +40,19 @@ export type ProductType = {
   currency_id: string
 }
 
+export type SearchType = {
+  site_id: string
+  country_default_time_zone: string
+  query: string
+  paging: {
+    total: number
+    primary_results: number
+    offset: number
+    limit: number
+  }
+  results: ProductType[]
+}
+
 class Seller {
   id: number
   nickname: string
@@ -149,18 +162,7 @@ export class SearchResult {
     query,
     paging,
     results,
-  }: {
-    site_id: string
-    country_default_time_zone: string
-    query: string
-    paging: {
-      total: number
-      primary_results: number
-      offset: number
-      limit: number
-    }
-    results: ProductType[]
-  }) {
+  }: SearchType) {
     this.site_id = site_id
     this.country_default_time_zone = country_default_time_zone
     this.query = query

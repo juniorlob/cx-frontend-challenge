@@ -1,15 +1,14 @@
 import { ProductsListContext } from './products-list.context'
-import { ProductListContextProps } from './product-list.types'
-import useDebouncedSearch from '@/lib/hooks/use-debounced-search'
-import { Product, ProductType } from '@/lib/models/search.model'
-import { productRequests } from '@/lib/services/product-list.requests'
+import { ProductFilter, ProductListContextProps } from './product-list.types'
+import useDebouncedSearch from '@/lib/hooks/use-debounced-search.hook'
+import { Product, ProductType, SearchType } from '@/lib/models/search.model'
+import { productRequests } from '@/lib/services/product-list-requests.service'
 
 const ProductListProvider = ({ children }: ProductListContextProps) => {
-  const { data, error, onFiltersChange } = useDebouncedSearch(
-    {},
-    productRequests.search,
-    300
-  )
+  const { data, error, onFiltersChange } = useDebouncedSearch<
+    ProductFilter,
+    SearchType
+  >({}, productRequests.search, 300)
 
   const value = {
     products: new Map(
@@ -19,7 +18,7 @@ const ProductListProvider = ({ children }: ProductListContextProps) => {
       ])
     ),
     error,
-    onFiltersChange,
+    onFiltersChange: (filters: ProductFilter) => onFiltersChange(filters),
     refetch: () => onFiltersChange({}),
   }
   return (

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useDebounce } from './use-debounce'
+import { useDebounce } from './use-debounce.hook'
 
 const useDebouncedSearch = <FilterType, ReturnType>(
   initialFilters: FilterType,

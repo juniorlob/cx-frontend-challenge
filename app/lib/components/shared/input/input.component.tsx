@@ -6,6 +6,7 @@ const Input = ({
   name,
   type,
   onChange,
+  defaultValue,
 }: InputProps): JSX.Element => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.({ [name]: event.target.value })
@@ -18,6 +19,7 @@ const Input = ({
         type={type}
         onChange={handleChange}
         className={styles.input}
+        defaultValue={defaultValue}
       />
       {endAdornment && (
         <button className={styles.endAdornment}>{endAdornment}</button>

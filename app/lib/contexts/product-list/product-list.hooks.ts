@@ -1,5 +1,8 @@
 import { useContext } from 'react'
 import { ProductsListContext } from './products-list.context'
+import { Product } from '@/lib/models/search.model'
+import { ProductFilter, ProductListHookTypes } from './product-list.types'
+import useUpdateQueryParams from '@/lib/hooks/use-update-query-params.hook'
 
 const useProductListContext = () => {
   const productListContext = useContext(ProductsListContext)
@@ -13,8 +16,27 @@ const useProductListContext = () => {
   return productListContext
 }
 
-export const useProductsList = () => {
-  const { products, onFiltersChange, refetch } = useProductListContext()
+export const useProductsList = ({
+  initialProducts,
+  initialFilters,
+}: ProductListHookTypes) => {
+  const {
+    products,
+    onFiltersChange: handleFiltersChange,
+    refetch,
+  } = useProductListContext()
+  const updateQueryParams = useUpdateQueryParams()
 
-  return { products, onFiltersChange, refetch }
+  const productsList =
+    (products?.size && products.size > 0 && products) ||
+    new Map(
+      initialProducts?.map((product) => [product.id, new Product(product)])
+    )
+
+  const onFiltersChange = (filters: ProductFilter) => {
+    handleFiltersChange({ ...initialFilters, ...filters })
+    updateQueryParams(filters)
+  }
+
+  return { products: productsList || initialProducts, onFiltersChange, refetch }
 }
