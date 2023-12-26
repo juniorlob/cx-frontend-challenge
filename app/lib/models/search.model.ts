@@ -25,7 +25,7 @@ type AddressType = {
 
 type PriceType = {
   amount: number
-  currency: string // Assuming you want to change 'currency' to 'currency_id' to match the constructor parameter in Product class.
+  currency: string
   decimals: number
 }
 
@@ -120,7 +120,7 @@ export class Product {
       currency: currency_id,
       decimals: 2,
     })
-    this.installments = new Installments(installments)
+    this.installments = installments && new Installments(installments)
     this.address = new Address({
       state_name: '',
       city_name: '',
