@@ -14,16 +14,28 @@ const ProductCard = ({ product }: ProductCardProps) => {
         />
       </section>
       <div className={styles.details}>
-        <div className={styles.price}>
-          {formatCurrency(product.price.amount, product.price.currency)}
+        <div className={styles.priceShippingWrapper}>
+          <div className={styles.price}>
+            {formatCurrency(product.price.amount, product.price.currency)}
+            {product.free_shipping && (
+              <span className={styles.freeShipping}></span>
+            )}
+          </div>
+          <div className={styles.location}>Mendoza</div>
         </div>
-        {product.free_shipping && <div className={styles.freeShipping}></div>}
-        <div className={styles.title}>{product.title}</div>
-
-        <div className={styles.installments}>
-          {product.installments.quantity} cuotas de ${' '}
-          {product.installments.amount}
+        <div className={styles.description}>
+          <h2 className={styles.title}>{product.title}</h2>
+          <div>{product.condition}</div>
         </div>
+        {product.installments && (
+          <p className={styles.installments}>
+            En {product.installments.quantity} cuotas de{' '}
+            {formatCurrency(
+              product.installments.amount,
+              product.price.currency
+            )}
+          </p>
+        )}
       </div>
     </div>
   )

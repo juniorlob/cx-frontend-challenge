@@ -3,10 +3,16 @@
 }
 
 .productListItem:not(:last-child)::after {
-  margin: calc(var(--spacer) * 4) calc(var(--spacer) * 3);
+  margin: calc(var(--spacer) * 2) calc(var(--spacer) * 3);
   content: '';
   display: block;
   height: 1px;
-  width: 95%;
+  width: auto;
   background-color: var(--light-gray);
+}
+
+@media screen and (max-width: 320px) {
+  .productListItem:not(:last-child)::after {
+    margin: calc(var(--spacer) * 2) 0;
+  }
 }

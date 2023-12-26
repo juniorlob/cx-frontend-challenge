@@ -2,7 +2,8 @@
   --body-background: #eeeeee;
   --white: #ffffff;
 
-  --light-green: #00a650;
+  --light-green: #1ed561;
+  --dark-green: #46a317;
   --light-blue: #3483fa;
 
   --text-primary: #333;
@@ -14,8 +15,22 @@
 
   --spacer: 8px;
   --border-radius: calc(var(--spacer) * 0.5);
-  --container: 1044px;
+  --container: 1130px;
+  --thumbnail-size: 210px;
 
-  --shadow-sm: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px,
-    rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+  --flex-direction: row;
+
+  --icon-font: 'Navigation';
+}
+
+@media only screen and (max-width: 768px) {
+  :root {
+    --thumbnail-size: 144px;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  :root {
+    --thumbnail-size: 100px;
+  }
 }

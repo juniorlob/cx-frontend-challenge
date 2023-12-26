@@ -1,45 +1,108 @@
 .card {
   border-radius: 8px;
-  display: flex;
+  display: grid;
+  grid-template-columns: var(--thumbnail-size) 1fr;
 }
 
 .thumbnailWrapper {
-  width: 160px;
-  height: 160px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .thumbnail {
   width: auto;
-  height: 100%;
-  object-fit: cover;
+  height: var(--thumbnail-size);
 }
 
 .details {
-  padding: 1rem;
+  padding: calc(var(--spacer) * 3.5) calc(var(--spacer) * 2)
+    calc(var(--spacer) * 2);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacer) * 2);
 }
 
 .title {
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: normal;
+}
+
+.description {
+  max-width: 85%;
+  font-size: 1rem;
 }
 
 .price {
   color: var(--text-primary);
+  font-size: 1.2rem;
   font-weight: normal;
+  display: flex;
+  gap: calc(var(--spacer) * 1);
 }
 
 .installments {
-  color: #264653;
+  color: var(--dark-green);
   font-size: 0.875rem;
 }
 
-.link {
-  color: #e76f51;
-  text-decoration: none;
-  font-size: 0.875rem;
+.priceShippingWrapper {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacer) * 1);
 }
 
 .freeShipping {
-  color: #2a9d8f;
+  background-color: var(--light-green);
+  width: calc(var(--spacer) * 3);
+  height: calc(var(--spacer) * 3);
+  border-radius: calc(var(--spacer) * 5);
+  display: flex;
+  justify-content: center;
   font-size: 0.875rem;
+}
+
+.freeShipping::after {
+  font-family: var(--icon-font);
+  content: var(--delivery-truck);
+}
+
+.location {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  margin-left: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .details {
+    padding: calc(var(--spacer) * 1.5);
+    gap: calc(var(--spacer) * 1);
+  }
+  .location {
+    margin-left: unset;
+  }
+  .priceShippingWrapper {
+    flex-direction: column-reverse;
+    align-items: start;
+  }
+  .title {
+    font-size: 0.7rem;
+  }
+  .description {
+    font-size: 0.7rem;
+  }
+  .price {
+    font-size: 1rem;
+  }
+  .installments {
+    font-size: 0.6rem;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .details {
+    padding: 0 calc(var(--spacer) * 1.5);
+    gap: calc(var(--spacer) * 1);
+  }
 }
