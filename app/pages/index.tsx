@@ -5,11 +5,11 @@ import Header from '@/lib/components/shared/header'
 import { Input } from '@/lib/components/shared'
 import { ProductType } from '@/lib/models/search.model'
 import ProductList from '@/lib/components/shared/product-list'
-import { useProductsList } from '@/lib/contexts/product-list/product-list.hooks'
+import { useProductsList } from '@/lib/contexts/product-list/use-product-list.hooks'
 import { productRequests } from '@/lib/services/product-list-requests.service'
 import { GetServerSidePropsContext } from 'next'
 import { ProductFilter } from '@/lib/contexts/product-list/product-list.types'
-
+import { DEFAULT_PRODUCT_FILTERS } from '@/lib/contexts/product-list'
 const inter = Inter({ subsets: ['latin'] })
 
 type Props = {
@@ -61,9 +61,13 @@ export default function Home({ initialProducts, initialFilters }: Props) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { query } = context
-  const data = await productRequests.search(query)
+  const initialFilters = { ...DEFAULT_PRODUCT_FILTERS, ...query }
+  const data = await productRequests.search(initialFilters)
 
   return {
-    props: { initialProducts: data?.results, initialFilters: query },
+    props: {
+      initialProducts: data?.results,
+      initialFilters,
+    },
   }
 }

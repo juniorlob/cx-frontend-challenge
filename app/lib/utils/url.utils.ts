@@ -1,6 +1,6 @@
 export const buildUrl = (
   path: string,
-  parameters?: { [key: string]: string | string[] | undefined }
+  parameters?: { [key: string]: string | string[] | undefined | number }
 ): string => {
   const url = new URL(path)
 
@@ -9,7 +9,7 @@ export const buildUrl = (
       if (Array.isArray(value)) {
         value.forEach((item) => url.searchParams.append(key, item))
       } else if (value !== undefined) {
-        url.searchParams.append(key, value)
+        url.searchParams.append(key, value.toString())
       }
     })
   }
