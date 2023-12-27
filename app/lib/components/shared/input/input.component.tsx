@@ -7,6 +7,7 @@ const Input = ({
   type,
   onChange,
   defaultValue,
+  placeholder,
 }: InputProps): JSX.Element => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.({ [name]: event.target.value })
@@ -19,6 +20,7 @@ const Input = ({
         type={type}
         onChange={handleChange}
         className={styles.input}
+        placeholder={placeholder}
         defaultValue={defaultValue}
       />
       {endAdornment && (
