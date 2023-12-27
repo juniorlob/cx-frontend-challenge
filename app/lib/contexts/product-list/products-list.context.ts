@@ -7,4 +7,5 @@ export const ProductsListContext = createContext<ContextValue>({
   error: null,
   onFiltersChange: () => {},
   refetch: () => {},
+  filters: {},
 })

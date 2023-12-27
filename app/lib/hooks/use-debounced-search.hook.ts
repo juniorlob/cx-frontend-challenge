@@ -29,7 +29,7 @@ const useDebouncedSearch = <FilterType, ReturnType>(
     setFilters((prev) => ({ ...prev, ...filter }))
   }
 
-  return { data, error, onFiltersChange }
+  return { data, error, filters, onFiltersChange }
 }
 
 export default useDebouncedSearch

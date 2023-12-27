@@ -1,4 +1,5 @@
-import { Product, ProductType } from '@/lib/models/search.model'
+import { Product } from '@/lib/models/classes/product.model'
+import { ProductType } from '@/lib/models/types/product.type'
 
 export type ProductListContextProps = {
   children: React.ReactNode
@@ -7,8 +8,9 @@ export type ProductListContextProps = {
 export type ContextValue = {
   products: Map<string, Product> | null
   error: Error | null
-  onFiltersChange: (filter: Partial<{}>) => void
+  onFiltersChange: (filter: Partial<ProductFilter>) => void
   refetch: () => void
+  filters: ProductFilter
 }
 
 export type ProductListHookTypes = {

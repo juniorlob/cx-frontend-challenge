@@ -2,7 +2,6 @@ import { Inter } from '@next/font/google'
 import styles from '@/pages/home.module.css'
 import Header from '@/lib/components/shared/header'
 import { CustomHead, Input } from '@/lib/components/shared'
-import { ProductType } from '@/lib/models/search.model'
 import ProductList from '@/lib/components/shared/product-list'
 import { useProductsList } from '@/lib/contexts/product-list/use-product-list.hooks'
 import { productRequests } from '@/lib/services/product-list-requests.service'
@@ -10,6 +9,7 @@ import { GetServerSidePropsContext } from 'next'
 import { ProductFilter } from '@/lib/contexts/product-list/product-list.types'
 import { DEFAULT_PRODUCT_FILTERS } from '@/lib/contexts/product-list'
 import { capitalizeFirstLetter } from '@/lib/utils/string.utils'
+import { ProductType } from '@/lib/models/types/product.type'
 const inter = Inter({ subsets: ['latin'] })
 
 type Props = {
