@@ -16,7 +16,7 @@
   --spacer: 8px;
   --border-radius: calc(var(--spacer) * 0.5);
   --container: 1130px;
-  --thumbnail-size: 210px;
+  --thumbnail-size: 160px;
 
   --flex-direction: row;
 
