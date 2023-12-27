@@ -23,7 +23,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
               <span className={styles.freeShipping}></span>
             )}
           </div>
-          <div className={styles.location}>Mendoza</div>
+          {product.address.state_name && (
+            <div className={styles.location}>{product.address.state_name}</div>
+          )}
         </div>
         <div className={styles.description}>
           <h2 className={styles.title}>{product.title}</h2>
