@@ -7,10 +7,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <div className={styles.card}>
       <section aria-label={product.title} className={styles.thumbnailWrapper}>
-        <img
+        <Image
           src={product.picture}
           alt={product.title}
           className={styles.thumbnail}
+          width={160}
+          height={160}
         />
       </section>
       <div className={styles.details}>
