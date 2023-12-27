@@ -2,6 +2,7 @@ import Image from 'next/image'
 import styles from './product-card.module.css'
 import { ProductCardProps } from './product-card.types'
 import { formatCurrency } from '@/lib/utils/currency.utils'
+import { getInstallmentText } from '@/lib/utils/product.utils'
 
 const ProductCard = ({ product }: ProductCardProps) => {
   return (
@@ -32,13 +33,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <div>{product.condition}</div>
         </div>
         {product.installments && (
-          <p className={styles.installments}>
-            En {product.installments.quantity} cuotas de{' '}
-            {formatCurrency(
-              product.installments.amount,
-              product.price.currency
-            )}
-          </p>
+          <p className={styles.installments}>{getInstallmentText(product)}</p>
         )}
       </div>
     </div>
