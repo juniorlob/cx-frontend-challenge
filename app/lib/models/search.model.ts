@@ -38,11 +38,12 @@ export type ProductType = {
   shipping: ShippingType
   installments: InstallmentsType
   currency_id: string
+  attributes: AttributeType[]
+  address: AddressType
 }
 
 export type SearchType = {
   site_id: string
-  country_default_time_zone: string
   query: string
   paging: {
     total: number
@@ -114,7 +115,7 @@ export class Product {
   installments: Installments
   address: Address
   picture: string
-  condition: string
+  condition?: string
   free_shipping: boolean
   constructor({
     id,
@@ -125,6 +126,8 @@ export class Product {
     shipping,
     installments,
     currency_id,
+    attributes,
+    address,
   }: ProductType) {
     this.id = id
     this.title = title
@@ -134,19 +137,21 @@ export class Product {
       decimals: 2,
     })
     this.installments = installments && new Installments(installments)
+    // FIXME: Check when the address is available on the product list response
     this.address = new Address({
-      state_name: '',
-      city_name: '',
+      state_name: address?.state_name,
+      city_name: address?.city_name,
     })
     this.picture = thumbnail
-    this.condition = condition
+    this.condition = attributes?.find(
+      (attribute) => attribute.id === 'ITEM_CONDITION'
+    )?.value_name
     this.free_shipping = shipping.free_shipping
   }
 }
 
 export class SearchResult {
   site_id: string
-  country_default_time_zone: string
   query: string
   paging: {
     total: number
@@ -156,15 +161,8 @@ export class SearchResult {
   }
   results: Map<string, Product>
 
-  constructor({
-    site_id,
-    country_default_time_zone,
-    query,
-    paging,
-    results,
-  }: SearchType) {
+  constructor({ site_id, query, paging, results }: SearchType) {
     this.site_id = site_id
-    this.country_default_time_zone = country_default_time_zone
     this.query = query
     this.paging = {
       total: paging.total,
