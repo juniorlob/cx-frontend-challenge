@@ -1,10 +1,13 @@
-import { ProductsListContext } from './products-list.context'
-import { ProductFilter, ProductListContextProps } from './product-list.types'
 import useDebouncedSearch from '@/lib/hooks/use-debounced-search.hook'
 import { productRequests } from '@/lib/services/product-list-requests.service'
 import { SearchType } from '@/lib/models/types/search.type'
 import { ProductType } from '@/lib/models/types/product.type'
 import { Product } from '@/lib/models/classes/product.model'
+import {
+  ProductFilter,
+  ProductListContextProps,
+} from '@/lib/contexts/product-list/product-list.types'
+import { ProductsListContext } from '@/lib/contexts/product-list/products-list.context'
 
 const ProductListProvider = ({ children }: ProductListContextProps) => {
   const { data, error, onFiltersChange, filters } = useDebouncedSearch<

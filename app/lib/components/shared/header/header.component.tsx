@@ -1,4 +1,4 @@
-import { HeaderProps } from './header.types'
+import { HeaderProps } from '@/lib/components/shared/header/header.types'
 import styles from './header.module.css'
 import Image from 'next/image'
 

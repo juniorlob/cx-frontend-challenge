@@ -1,8 +1,11 @@
 import { useContext } from 'react'
-import { ProductsListContext } from './products-list.context'
-import { ProductFilter, ProductListHookTypes } from './product-list.types'
 import useUpdateQueryParams from '@/lib/hooks/use-update-query-params.hook'
 import { Product } from '@/lib/models/classes/product.model'
+import { ProductsListContext } from '@/lib/contexts/product-list/products-list.context'
+import {
+  ProductFilter,
+  ProductListHookTypes,
+} from '@/lib/contexts/product-list/product-list.types'
 
 const useProductListContext = () => {
   const productListContext = useContext(ProductsListContext)

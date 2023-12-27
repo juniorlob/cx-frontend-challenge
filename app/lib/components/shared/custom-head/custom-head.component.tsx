@@ -1,6 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
-import { CustomHeadProps } from './custom-head.types'
+import { CustomHeadProps } from '@/lib/components/shared/custom-head/custom-head.types'
 
 const CustomHead = ({
   title,

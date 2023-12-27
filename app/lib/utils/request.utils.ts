@@ -1,4 +1,4 @@
-import { HttpService } from '../services/http.service'
+import { HttpService } from '@/lib/services/http.service'
 
 export const apiDataFetcher =
   (apiRoute: string) =>

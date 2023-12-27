@@ -1,6 +1,5 @@
+import { ContextValue } from '@/lib/contexts/product-list/product-list.types'
 import { createContext } from 'react'
-import { ContextValue } from './product-list.types'
-import { Product } from '@/lib/models/search.model'
 
 export const ProductsListContext = createContext<ContextValue>({
   products: null,

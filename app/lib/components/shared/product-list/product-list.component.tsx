@@ -1,6 +1,6 @@
-import ProductCard from '../product-card'
-import { ProductListProps } from './product-list.types'
+import { ProductListProps } from '@/lib/components/shared/product-list/product-list.types'
 import styles from './product-list.module.css'
+import ProductCard from '@/lib/components/shared/product-card'
 const ProductList = ({ products }: ProductListProps) => {
   return (
     <ol className={styles.productList}>

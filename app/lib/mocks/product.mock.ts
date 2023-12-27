@@ -6,18 +6,22 @@ import { attributeMock } from '@/lib/mocks/attribute.mock'
 import { Product } from '@/lib/models/classes/product.model'
 import { Installments } from '@/lib/models/classes/installments.model'
 import { Address } from '@/lib/models/classes/address.model'
+import { Price } from '@/lib/models/classes/price.model'
+import { priceMock } from '@/lib/mocks/price.mock'
 
 export const productModelMock = (): Product =>
   new Product({
     id: faker.string.uuid(),
     title: faker.commerce.productName(),
-    condition: faker.helpers.arrayElement(['new', 'used']),
+    condition: faker.helpers.arrayElement(['new', 'used', undefined]),
     thumbnail: faker.image.url(),
-    price: faker.number.int({ min: 10, max: 1000 }),
+    price: faker.finance.amount(5, 10, 2, '', true),
     shipping: shippingMock(),
     installments: new Installments(installmentsMock()),
     currency_id: faker.finance.currencyCode(),
-    attributes: Array.from({ length: 5 }, () => attributeMock()),
+    attributes: Array.from({ length: 5 }, () =>
+      attributeMock('ITEM_CONDITION')
+    ),
     address: new Address(addressMock()),
   })
 

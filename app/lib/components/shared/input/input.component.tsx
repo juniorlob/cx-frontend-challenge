@@ -1,5 +1,5 @@
+import { InputProps } from '@/lib/components/shared/input/input.types'
 import styles from './input.module.css'
-import { InputProps } from './input.types'
 
 const Input = ({
   endAdornment,
