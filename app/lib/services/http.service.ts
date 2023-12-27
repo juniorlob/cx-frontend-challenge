@@ -1,4 +1,4 @@
-import { buildUrl } from '../utils/url.utils'
+import { buildUrl } from '@/lib/utils/url.utils'
 
 export class HttpService {
   async get(
