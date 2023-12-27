@@ -1,7 +1,7 @@
 import { Inter } from '@next/font/google'
 import styles from '@/lib/styles/home.module.css'
 import Header from '@/lib/components/shared/header'
-import { CustomHead, Input } from '@/lib/components/shared'
+import { CustomHead, Dropdown, Input } from '@/lib/components/shared'
 import ProductList from '@/lib/components/shared/product-list'
 import { useProductsList } from '@/lib/contexts/product-list/use-product-list.hooks'
 import { productRequests } from '@/lib/services/product-list-requests.service'
@@ -52,6 +52,21 @@ export default function HomePage({ initialProducts, initialFilters }: Props) {
         </form>
       </Header>
       <main className={inter.className}>
+        <Dropdown
+          name="sort"
+          label="Ordenar por:"
+          onChange={onFiltersChange}
+          options={[
+            {
+              id: 'relevance',
+              name: 'Más relevantes',
+            },
+            {
+              id: 'price_desc',
+              name: 'Mayor precio',
+            },
+          ]}
+        />
         {!!(products.size > 0) && (
           <section className={styles.productListSection}>
             <div className={styles.productListWrapper}>
