@@ -6,9 +6,9 @@ import { ShippingType } from '@/lib/models/types/shipping.type'
 export type ProductType = {
   id: string
   title: string
-  condition: string
+  condition: string | undefined
   thumbnail: string
-  price: number
+  price: number | string
   shipping: ShippingType
   installments: InstallmentsType
   currency_id: string

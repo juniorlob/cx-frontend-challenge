@@ -1,5 +1,5 @@
 export type PriceType = {
-  amount: number
+  amount: number | string
   currency: string
   decimals: number
 }

@@ -1,7 +1,7 @@
 import { PriceType } from '@/lib/models/types/price.type'
 
 export class Price {
-  amount: number
+  amount: number | string
   currency: string
   decimals: number
 
