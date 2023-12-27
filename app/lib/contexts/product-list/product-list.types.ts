@@ -14,8 +14,8 @@ export type ContextValue = {
 }
 
 export type ProductListHookTypes = {
-  initialProducts: ProductType[]
-  initialFilters: ProductFilter
+  initialProducts?: ProductType[]
+  initialFilters?: ProductFilter
 }
 
 export type ProductFilter = {

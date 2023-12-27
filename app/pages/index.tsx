@@ -1,5 +1,5 @@
 import { Inter } from '@next/font/google'
-import styles from '@/pages/home.module.css'
+import styles from '@/lib/styles/home.module.css'
 import Header from '@/lib/components/shared/header'
 import { CustomHead, Input } from '@/lib/components/shared'
 import ProductList from '@/lib/components/shared/product-list'
@@ -10,46 +10,48 @@ import { ProductFilter } from '@/lib/contexts/product-list/product-list.types'
 import { DEFAULT_PRODUCT_FILTERS } from '@/lib/contexts/product-list'
 import { capitalizeFirstLetter } from '@/lib/utils/string.utils'
 import { ProductType } from '@/lib/models/types/product.type'
+import { HOME_SEO } from '@/lib/constants/home.constants'
 const inter = Inter({ subsets: ['latin'] })
 
 type Props = {
-  initialProducts: ProductType[]
-  initialFilters: ProductFilter
+  initialProducts?: ProductType[]
+  initialFilters?: ProductFilter
 }
-export default function Home({ initialProducts, initialFilters }: Props) {
+export default function HomePage({ initialProducts, initialFilters }: Props) {
   const { products, refetch, filters, onFiltersChange } = useProductsList({
     initialProducts,
     initialFilters,
   })
 
-  const headProps = {
-    title: filters.q
-      ? `${capitalizeFirstLetter(filters.q)} - MercadoLibre`
-      : 'Buscar - MercadoLibre',
-    description: 'Buscar en MercadoLibre',
-  }
-
   return (
     <>
-      <CustomHead {...headProps} />
+      <CustomHead
+        title={
+          filters.q
+            ? `${capitalizeFirstLetter(filters.q)} - ${HOME_SEO.SITE_NAME}`
+            : `${HOME_SEO.TITLE} - ${HOME_SEO.SITE_NAME}`
+        }
+        description={HOME_SEO.DESCRIPTION}
+      />
+      <Header>
+        <form
+          role="search"
+          onSubmit={(event) => {
+            event.preventDefault()
+            refetch()
+          }}
+        >
+          <Input
+            name="q"
+            type="search"
+            defaultValue={initialFilters?.q}
+            placeholder="Buscar productos, marcas y más…"
+            endAdornment
+            onChange={onFiltersChange}
+          />
+        </form>
+      </Header>
       <main className={inter.className}>
-        <Header>
-          <form
-            onSubmit={(event) => {
-              event.preventDefault()
-              refetch()
-            }}
-          >
-            <Input
-              name="q"
-              type="search"
-              defaultValue={initialFilters.q}
-              placeholder="Buscar productos, marcas y más…"
-              endAdornment
-              onChange={onFiltersChange}
-            />
-          </form>
-        </Header>
         {!!(products.size > 0) && (
           <section className={styles.productListSection}>
             <div className={styles.productListWrapper}>
