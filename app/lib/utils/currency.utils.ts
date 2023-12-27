@@ -1,8 +1,11 @@
 export function formatCurrency(amount: number, currencyCode: string): string {
-  const formatter = new Intl.NumberFormat('es-AR', {
-    style: 'currency',
-    currency: currencyCode,
-    minimumFractionDigits: 0,
-  })
+  const formatter = new Intl.NumberFormat(
+    process.env.NEXT_PUBLIC_CURRENCY_LOCALE,
+    {
+      style: 'currency',
+      currency: currencyCode,
+      minimumFractionDigits: 0,
+    }
+  )
   return formatter.format(amount)
 }
