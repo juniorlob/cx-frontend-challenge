@@ -3,7 +3,7 @@ import { buildUrl } from '../utils/url.utils'
 export class HttpService {
   async get(
     url: string,
-    params?: { [key: string]: string | string[] | undefined }
+    params?: { [key: string]: string | string[] | undefined | number }
   ) {
     const response = await fetch(buildUrl(url, params))
 

@@ -1,4 +1,4 @@
-import { apiDataFetcher } from '../utils/request.utils'
+import { apiDataFetcher } from '@/lib/utils/request.utils'
 
 export const ROUTE_TYPES = {
   SEARCH: 'search',
