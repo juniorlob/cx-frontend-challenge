@@ -1,8 +1,9 @@
 import Image from 'next/image'
 import styles from './product-card.module.css'
-import { ProductCardProps } from './product-card.types'
 import { formatCurrency } from '@/lib/utils/currency.utils'
 import { getInstallmentText } from '@/lib/utils/product.utils'
+import { ProductCardProps } from '@/lib/components/shared/product-card/product-card.types'
+import { TEST_IDS } from '@/lib/components/shared/product-card/product-card.constants'
 
 const ProductCard = ({ product }: ProductCardProps) => {
   return (
@@ -21,7 +22,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <div className={styles.price}>
             {formatCurrency(product.price.amount, product.price.currency)}
             {product.free_shipping && (
-              <span className={styles.freeShipping}></span>
+              <span
+                data-testid={TEST_IDS.SHIPPING_ICON}
+                className={styles.freeShipping}
+              ></span>
             )}
           </div>
           {product.address.state_name && (
@@ -30,10 +34,17 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
         <div className={styles.description}>
           <h2 className={styles.title}>{product.title}</h2>
-          <div>{product.condition}</div>
+          {product.condition && (
+            <div data-testid={TEST_IDS.CONDITION}>{product.condition}</div>
+          )}
         </div>
         {product.installments && (
-          <p className={styles.installments}>{getInstallmentText(product)}</p>
+          <p
+            data-testid={TEST_IDS.INSTALLMENTS}
+            className={styles.installments}
+          >
+            {getInstallmentText(product)}
+          </p>
         )}
       </div>
     </div>

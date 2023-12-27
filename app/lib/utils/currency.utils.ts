@@ -1,4 +1,7 @@
-export function formatCurrency(amount: number, currencyCode: string): string {
+export function formatCurrency(
+  amount: number | string,
+  currencyCode: string
+): string {
   const formatter = new Intl.NumberFormat(
     process.env.NEXT_PUBLIC_CURRENCY_LOCALE,
     {
@@ -7,5 +10,5 @@ export function formatCurrency(amount: number, currencyCode: string): string {
       minimumFractionDigits: 0,
     }
   )
-  return formatter.format(amount)
+  return formatter.format(Number(amount))
 }
