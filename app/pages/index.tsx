@@ -10,18 +10,27 @@ import { ProductFilter } from '@/lib/contexts/product-list/product-list.types'
 import { DEFAULT_PRODUCT_FILTERS } from '@/lib/contexts/product-list'
 import { capitalizeFirstLetter } from '@/lib/utils/string.utils'
 import { ProductType } from '@/lib/models/types/product.type'
-import { HOME_SEO } from '@/lib/constants/home.constants'
+import {
+  HOME_SEO,
+  INPUTS_NAME,
+  SEARCH,
+  SORT,
+} from '@/lib/constants/home.constants'
+import { cx } from '@/lib/utils/class-name.utils'
+import { SearchType } from '@/lib/models/types/search.type'
 const inter = Inter({ subsets: ['latin'] })
 
 type Props = {
-  initialProducts?: ProductType[]
+  initialData?: SearchType
   initialFilters?: ProductFilter
 }
-export default function HomePage({ initialProducts, initialFilters }: Props) {
-  const { products, refetch, filters, onFiltersChange } = useProductsList({
-    initialProducts,
-    initialFilters,
-  })
+export default function HomePage({ initialData, initialFilters }: Props) {
+  const { products, sort, refetch, filters, onFiltersChange } = useProductsList(
+    {
+      initialData,
+      initialFilters,
+    }
+  )
 
   return (
     <>
@@ -42,38 +51,36 @@ export default function HomePage({ initialProducts, initialFilters }: Props) {
           }}
         >
           <Input
-            name="q"
+            name={INPUTS_NAME.QUERY}
             type="search"
             defaultValue={initialFilters?.q}
-            placeholder="Buscar productos, marcas y más…"
+            placeholder={SEARCH.PLACEHOLDER}
             endAdornment
             onChange={onFiltersChange}
           />
         </form>
       </Header>
-      <main className={inter.className}>
-        <Dropdown
-          name="sort"
-          label="Ordenar por:"
-          onChange={onFiltersChange}
-          options={[
-            {
-              id: 'relevance',
-              name: 'Más relevantes',
-            },
-            {
-              id: 'price_desc',
-              name: 'Mayor precio',
-            },
-          ]}
-        />
-        {!!(products.size > 0) && (
-          <section className={styles.productListSection}>
-            <div className={styles.productListWrapper}>
-              <ProductList products={products} />
+      <main className={cx(inter.className, styles.main)}>
+        <div className={styles.container}>
+          {products.size > 0 && sort.available.length > 0 && (
+            <div className={styles.sortWrapper}>
+              <Dropdown
+                name={INPUTS_NAME.SORT}
+                label={SORT.LABEL}
+                onChange={onFiltersChange}
+                defaultValue={sort.current?.id}
+                options={sort.available}
+              />
             </div>
-          </section>
-        )}
+          )}
+          {products.size > 0 && (
+            <section className={styles.productListSection}>
+              <div className={styles.productListWrapper}>
+                <ProductList products={products} />
+              </div>
+            </section>
+          )}
+        </div>
       </main>
     </>
   )
@@ -86,7 +93,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      initialProducts: data?.results,
+      initialData: data,
       initialFilters,
     },
   }

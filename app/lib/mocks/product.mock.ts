@@ -21,6 +21,13 @@ export const productMock = (): ProductType => ({
   address: addressMock(),
 })
 
+export const productsMock = (): ProductType[] => {
+  return Array.from(
+    { length: Number(process.env.NEXT_PUBLIC_MELI_QUERY_LIMIT) || 10 },
+    () => productMock()
+  )
+}
+
 export const productModelMock = (): Product =>
   new Product({
     id: faker.string.uuid(),

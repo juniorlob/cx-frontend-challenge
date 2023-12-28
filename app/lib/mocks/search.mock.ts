@@ -1,17 +1,18 @@
-import { faker } from '@faker-js/faker'
-import { productListModelMock } from '@/lib/mocks/product.mock'
+import {
+  productListModelMock,
+  productMock,
+  productsMock,
+} from '@/lib/mocks/product.mock'
 import { Search } from '@/lib/models/classes/search.model'
+import { sortMock, sortsMock } from '@/lib/mocks/sort.mock'
+import { SearchType } from '@/lib/models/types/search.type'
 
-export const searchMock = (): Search => {
+export const searchMock = (): SearchType => {
   return {
-    site_id: 'MLA',
-    query: faker.lorem.words(),
-    paging: {
-      total: productListModelMock.size,
-      primary_results: productListModelMock.size,
-      offset: 0,
-      limit: productListModelMock.size,
-    },
-    results: productListModelMock,
+    results: productsMock(),
+    available_sorts: sortsMock(),
+    sort: sortMock(),
   }
 }
+
+export const searchModelMock = (): Search => new Search(searchMock())

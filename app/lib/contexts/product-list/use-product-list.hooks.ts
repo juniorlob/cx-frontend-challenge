@@ -7,6 +7,7 @@ import {
   ProductListHookTypes,
 } from '@/lib/contexts/product-list/product-list.types'
 import { useDebounce } from '@/lib/hooks/use-debounce.hook'
+import { sortByKey } from '@/lib/utils/array.utils'
 
 const useProductListContext = () => {
   const productListContext = useContext(ProductsListContext)
@@ -21,17 +22,18 @@ const useProductListContext = () => {
 }
 
 export const useProductsList = ({
-  initialProducts,
+  initialData,
   initialFilters,
 }: ProductListHookTypes) => {
   const {
     products,
     onFiltersChange: handleFiltersChange,
     refetch,
+    sort: { available, current },
     filters,
   } = useProductListContext()
-  const updateQueryParams = useUpdateQueryParams()
 
+  const updateQueryParams = useUpdateQueryParams()
   const debounceUpdateQueryParams = useDebounce(filters, 300)
 
   useEffect(() => {
@@ -42,16 +44,19 @@ export const useProductsList = ({
   const productsList =
     (products?.size && products.size > 0 && products) ||
     new Map(
-      initialProducts?.map((product) => [product.id, new Product(product)])
+      initialData?.results.map((product) => [product.id, new Product(product)])
     )
 
   const onFiltersChange = (filters: ProductFilter) => {
     handleFiltersChange({ ...initialFilters, ...filters })
   }
 
+  const sortOptions = available && sortByKey(available, 'id')?.reverse()
+
   return {
-    products: productsList || initialProducts,
+    products: productsList,
     filters: { ...initialFilters, ...filters },
+    sort: { available: sortOptions || [], current },
     onFiltersChange,
     refetch,
   }

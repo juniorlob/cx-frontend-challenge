@@ -11,6 +11,21 @@
   border-radius: var(--border-radius);
 }
 
+.main {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  max-width: var(--container);
+  width: 100%;
+}
+.sortWrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: calc(var(--spacer) * 2);
+}
+
 @media screen and (max-width: 320px) {
   .productListWrapper {
     padding: calc(var(--spacer) * 1.5) 0;

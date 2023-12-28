@@ -53,8 +53,8 @@ const Dropdown = ({
     setSelected(value)
     setOpen(false)
   }
-
-  const currentItemName = options.find((option) => option.id === selected)?.name
+  const currentItemName =
+    options.find((option) => option.id === selected)?.name || ''
 
   return (
     <div className={styles.dropdownWrapper}>
