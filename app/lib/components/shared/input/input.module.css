@@ -1,5 +1,6 @@
 .input {
-  all: unset;
+  outline: none;
+  border: none;
   width: 100%;
   padding: 10px 60px 10px 15px;
 }
