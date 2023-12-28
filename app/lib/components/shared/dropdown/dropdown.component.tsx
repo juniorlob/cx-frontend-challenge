@@ -15,7 +15,7 @@ const DropdownList = ({
   selected,
 }: Partial<DropdownProps> & {
   onClick: (value: string) => void
-  selected: string
+  selected: string | undefined
 }) => {
   return (
     <ul className={styles.dropdownList}>
