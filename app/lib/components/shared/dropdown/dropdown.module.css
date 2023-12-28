@@ -99,3 +99,21 @@
   font-weight: 500;
   color: var(--text-secondary);
 }
+
+@media screen and (max-width: 320px) {
+  .dropdownWrapper {
+    font-size: 0.6rem;
+  }
+  .dropdownList {
+    font-size: 0.6rem;
+  }
+  .listItem {
+    padding: calc(var(--spacer) * 1.2) calc(var(--spacer) * 3);
+  }
+
+  .button::after {
+    font-size: 0.8rem;
+    transform-origin: center 9px;
+    top: -1px;
+  }
+}
