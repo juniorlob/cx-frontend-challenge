@@ -33,7 +33,6 @@ const DropdownList = forwardRef(function DropdownList(
     </ul>
   )
 })
-DropdownList.displayName = 'DropdownList'
 
 const Dropdown = ({
   options,
