@@ -19,7 +19,7 @@ const DropdownList = ({
 }) => {
   return (
     <ul className={styles.dropdownList}>
-      {options?.map((option: DropdownOption, index) => (
+      {options?.map((option: DropdownOption) => (
         <li
           role="option"
           aria-selected={selected === option.id}
