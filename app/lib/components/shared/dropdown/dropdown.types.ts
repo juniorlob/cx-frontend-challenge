@@ -10,3 +10,8 @@ export type DropdownProps = {
   name: string
   label?: string
 }
+
+export type DropdownListProps = Partial<DropdownProps> & {
+  onClick: (value: string) => void
+  selected: string | undefined
+}

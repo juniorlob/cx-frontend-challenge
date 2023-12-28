@@ -1,41 +1,39 @@
 import {
+  DropdownListProps,
   DropdownOption,
   DropdownProps,
 } from '@/lib/components/shared/dropdown/dropdown.types'
 import styles from './dropdown.module.css'
-import { useRef, useState } from 'react'
+import { forwardRef, useRef, useState } from 'react'
 import { cx } from '@/lib/utils/class-name.utils'
 import { createPortal } from 'react-dom'
 import useBodyScrollLock from '@/lib/hooks/use-body-scroll-lock.hook'
 import useOutsideClickHandler from '@/lib/hooks/use-outside-click.hook'
 
-const DropdownList = ({
-  options,
-  onClick,
-  selected,
-}: Partial<DropdownProps> & {
-  onClick: (value: string) => void
-  selected: string | undefined
-}) => {
+const DropdownList = forwardRef(function DropdownList(
+  { options, onClick, selected }: DropdownListProps,
+  ref: React.Ref<HTMLUListElement>
+) {
   return (
-    <ul className={styles.dropdownList}>
+    <ul className={styles.dropdownList} ref={ref}>
       {options?.map((option: DropdownOption) => (
         <li
+          key={option.id}
           role="option"
           aria-selected={selected === option.id}
           className={cx(
             styles.listItem,
             selected === option.id && styles.listItemActive
           )}
-          {...(selected !== option.id && { onClick: () => onClick(option.id) })}
-          key={option.id}
+          onClick={() => onClick(option.id)}
         >
           {option.name}
         </li>
       ))}
     </ul>
   )
-}
+})
+DropdownList.displayName = 'DropdownList'
 
 const Dropdown = ({
   options,
@@ -48,7 +46,8 @@ const Dropdown = ({
   const [open, setOpen] = useState<boolean>(false)
   useBodyScrollLock(open)
   const buttonRef = useRef<HTMLButtonElement>(null)
-  useOutsideClickHandler(buttonRef, () => setOpen(false))
+  const listRef = useRef<HTMLUListElement>(null)
+  useOutsideClickHandler(listRef, () => setOpen(false))
 
   const handleChange = (value: string) => {
     onChange?.({ [name]: value })
@@ -78,6 +77,7 @@ const Dropdown = ({
               selected={selected}
               onClick={handleChange}
               options={options}
+              ref={listRef}
             />,
             buttonRef.current.parentElement
           )}
