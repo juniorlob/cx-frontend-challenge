@@ -1,4 +1,4 @@
-type DropdownOption = {
+export type DropdownOption = {
   id: string
   name: string
 }
@@ -6,7 +6,7 @@ type DropdownOption = {
 export type DropdownProps = {
   options: DropdownOption[]
   onChange?: (data: { [key: string]: string }) => void
-  defaultValue?: string | number
+  defaultValue: string
   name: string
   label?: string
 }

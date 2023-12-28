@@ -6,12 +6,15 @@
   --dark-green: #46a317;
   --light-blue: #3483fa;
 
+  --extra-light-blue: #9cc4db;
+
   --text-primary: #333;
   --text-secondary: #666;
 
   --primary: #fff159;
 
   --light-gray: #eeeeee;
+  --medium-gray: #d8d8d8;
 
   --spacer: 8px;
   --border-radius: calc(var(--spacer) * 0.5);
@@ -21,6 +24,16 @@
   --flex-direction: row;
 
   --icon-font: 'Navigation';
+
+  --box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.12);
+
+  --transition: all 0.2s ease;
+}
+
+@media only screen and (max-width: 1280px) {
+  :root {
+    --container: 900px;
+  }
 }
 
 @media only screen and (max-width: 768px) {

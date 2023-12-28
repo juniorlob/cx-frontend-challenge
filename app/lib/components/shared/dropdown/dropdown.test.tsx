@@ -15,7 +15,7 @@ describe('Dropdown Component', () => {
         <Dropdown
           options={mockOptions}
           name="sort"
-          defaultValue=""
+          defaultValue={mockOptions[0].id}
           onChange={() => {}}
           label="Sort by"
         />
@@ -25,56 +25,48 @@ describe('Dropdown Component', () => {
 
     expect(results).toHaveNoViolations()
   })
+  test('should open dropdown list when button is clicked', () => {
+    const [mockOption1] = mockOptions
 
-  it('renders the dropdown with options', () => {
     render(
       <Dropdown
         options={mockOptions}
-        defaultValue=""
-        onChange={() => {}}
-        label="Sort by"
-        name="sortOrder"
+        onChange={jest.fn()}
+        defaultValue={mockOption1.id}
+        label="Test Label"
+        name="testDropdown"
       />
     )
 
-    expect(screen.getByText('Sort by')).toBeInTheDocument()
+    const button = screen.getByText(mockOption1.name)
+    fireEvent.click(button)
+    const allOptionElements = screen.getAllByRole('option')
+    expect(allOptionElements.length).toBe(mockOptions.length)
 
     mockOptions.forEach((option) => {
-      expect(screen.getByText(option.name)).toBeInTheDocument()
+      expect(
+        screen.getByRole('option', { name: option.name })
+      ).toBeInTheDocument()
     })
   })
 
-  it('calls onChange when an option is selected', () => {
-    const handleChange = jest.fn()
+  it('should call onChange when an option is clicked', () => {
+    const [mockOption1, mockOption2] = mockOptions
+
+    const mockOnChange = jest.fn()
     render(
       <Dropdown
         options={mockOptions}
-        defaultValue=""
-        onChange={handleChange}
-        label="Sort by"
-        name="sortOrder"
+        onChange={mockOnChange}
+        defaultValue={mockOption1.id}
+        label="Test Label"
+        name="testDropdown"
       />
     )
 
-    fireEvent.change(screen.getByRole('combobox'), {
-      target: { value: mockOptions[1].id },
-    })
-    expect(handleChange).toHaveBeenCalledWith(mockOptions[1].id)
-  })
+    fireEvent.click(screen.getByText(mockOption1.name))
+    fireEvent.click(screen.getByText(mockOption2.name))
 
-  it('sets the correct default value', () => {
-    const defaultValue = mockOptions[0].id
-
-    render(
-      <Dropdown
-        options={mockOptions}
-        defaultValue={defaultValue}
-        onChange={() => {}}
-        label="Sort by"
-        name="sortOrder"
-      />
-    )
-
-    expect(screen.getByRole('combobox')).toHaveValue(defaultValue)
+    expect(mockOnChange).toHaveBeenCalledWith({ testDropdown: mockOption2.id })
   })
 })

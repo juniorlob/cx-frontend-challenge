@@ -1,22 +1,101 @@
-/* SortOrderSelect.module.css */
-.sortOrderSelect {
-  position: relative;
-  display: inline-block;
+.button {
+  all: unset;
+  padding-right: 1rem;
+  transition: var(--transition);
+  color: var(--text-secondary);
+  font-weight: light;
 }
 
-.select {
-  appearance: none;
-  width: 100%;
-  padding: 8px 32px 8px 16px;
-  font-size: 16px;
-  border: 1px solid var(--text-secondary);
-  border-radius: 4px;
+.button:hover {
+  color: var(--light-blue);
+  cursor: pointer;
 }
 
-.iconWrapper {
+.button::after {
+  font-family: var(--icon-font);
+  content: var(--chevron-up-o);
+  font-size: 1rem;
   position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
+  transform-origin: center 11px;
+  transform: rotate(-180deg);
+  transition: var(--transition);
+  color: var(--light-blue);
+  top: -2px;
+}
+
+.buttonOpen::after {
+  transform: rotate(0deg);
+}
+
+.dropdownWrapper {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--spacer);
+  width: auto;
+  font-size: 0.7rem;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdownList {
+  background-color: white;
+  color: var(--text-secondary);
+  box-shadow: var(--box-shadow);
+  position: absolute;
+  list-style-type: none;
+  font-size: 0.7rem;
+  border-radius: var(--border-radius);
+  transform: translateY(calc(var(--spacer) * 0.3));
+  right: 0;
+}
+
+.listItem {
+  padding: calc(var(--spacer) * 1.5) calc(var(--spacer) * 3);
+  white-space: nowrap;
+  cursor: pointer;
+  border-bottom: 1px solid var(--medium-gray);
+  position: relative;
+}
+
+.listItem:hover {
+  background-color: var(--light-gray);
+}
+
+.listItem:hover:before {
+  content: ' ';
+  position: absolute;
+  display: block;
+  border-radius: calc(var(--border-radius) * 0.5);
+  border-left: 5px solid var(--extra-light-blue);
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.listItemActive,
+.listItemActive:hover {
+  color: var(--light-blue);
+  font-weight: bold;
+  cursor: default;
+  background-color: white;
+}
+
+.listItemActive:before,
+.listItemActive:hover:before {
+  content: ' ';
+  position: absolute;
+  display: block;
+  border-radius: calc(var(--border-radius) * 0.5);
+  border-left: 5px solid var(--light-blue);
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.label {
+  font-weight: 500;
+  color: var(--text-secondary);
 }
