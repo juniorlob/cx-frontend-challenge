@@ -7,6 +7,7 @@ import { useRef, useState } from 'react'
 import { cx } from '@/lib/utils/class-name.utils'
 import { createPortal } from 'react-dom'
 import useBodyScrollLock from '@/lib/hooks/use-body-scroll-lock.hook'
+import useOutsideClickHandler from '@/lib/hooks/use-outside-click.hook'
 
 const DropdownList = ({
   options,
@@ -43,10 +44,11 @@ const Dropdown = ({
   label,
   name,
 }: DropdownProps) => {
-  const [selected, setSelected] = useState<string>(defaultValue)
+  const [selected, setSelected] = useState<string | undefined>(defaultValue)
   const [open, setOpen] = useState<boolean>(false)
   useBodyScrollLock(open)
   const buttonRef = useRef<HTMLButtonElement>(null)
+  useOutsideClickHandler(buttonRef, () => setOpen(false))
 
   const handleChange = (value: string) => {
     onChange?.({ [name]: value })
@@ -70,13 +72,14 @@ const Dropdown = ({
           {currentItemName}
         </button>
         {open &&
+          buttonRef?.current?.parentElement &&
           createPortal(
             <DropdownList
               selected={selected}
               onClick={handleChange}
               options={options}
             />,
-            buttonRef?.current?.parentElement || document.body
+            buttonRef.current.parentElement
           )}
       </div>
     </div>
