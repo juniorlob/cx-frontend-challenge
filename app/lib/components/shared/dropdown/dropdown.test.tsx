@@ -93,4 +93,24 @@ describe('Dropdown Component', () => {
 
     expect(mockOnChange).not.toHaveBeenCalled()
   })
+
+  it('should close the dropdown list opened when button is clicked', async () => {
+    const [mockOption1, mockOption2] = mockOptions
+
+    render(
+      <Dropdown
+        options={mockOptions}
+        defaultValue={mockOption1.id}
+        label="Test Label"
+        name="testDropdown"
+      />
+    )
+
+    const button = screen.getByText(mockOption1.name)
+    fireEvent.click(button)
+    const option2Item = screen.getByText(mockOption2.name)
+    expect(option2Item).toBeInTheDocument()
+    fireEvent.click(button)
+    expect(option2Item).not.toBeInTheDocument()
+  })
 })

@@ -46,7 +46,15 @@ const Dropdown = ({
   useBodyScrollLock(open)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const listRef = useRef<HTMLUListElement>(null)
-  useOutsideClickHandler(listRef, () => setOpen(false))
+  useOutsideClickHandler<HTMLButtonElement | HTMLUListElement>(
+    [listRef, buttonRef],
+    () => setOpen(false)
+  )
+
+  const handleOpen = (event: React.MouseEvent | undefined) => {
+    event && event.stopPropagation()
+    setOpen((prev) => !prev)
+  }
 
   const handleChange = (value: string) => {
     onChange?.({ [name]: value })
@@ -66,7 +74,7 @@ const Dropdown = ({
           aria-labelledby={currentItemName}
           className={cx(styles.button, open && styles.buttonOpen)}
           ref={buttonRef}
-          onClick={() => setOpen(!open)}
+          onClick={handleOpen}
         >
           {currentItemName}
         </button>
