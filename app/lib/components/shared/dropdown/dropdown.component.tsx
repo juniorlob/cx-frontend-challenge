@@ -16,20 +16,20 @@ const DropdownList = forwardRef(function DropdownList(
 ) {
   return (
     <ul className={styles.dropdownList} ref={ref}>
-      {options?.map((option: DropdownOption) => (
-        <li
-          key={option.id}
-          role="option"
-          aria-selected={selected === option.id}
-          className={cx(
-            styles.listItem,
-            selected === option.id && styles.listItemActive
-          )}
-          onClick={() => onClick(option.id)}
-        >
-          {option.name}
-        </li>
-      ))}
+      {options?.map((option: DropdownOption) => {
+        const isActive = option.id === selected
+        return (
+          <li
+            key={option.id}
+            role="option"
+            aria-selected={isActive}
+            className={cx(styles.listItem, isActive && styles.listItemActive)}
+            {...(!isActive && { onClick: () => onClick(option.id) })}
+          >
+            {option.name}
+          </li>
+        )
+      })}
     </ul>
   )
 })
@@ -53,6 +53,7 @@ const Dropdown = ({
     setSelected(value)
     setOpen(false)
   }
+
   const currentItemName =
     options.find((option) => option.id === selected)?.name || ''
 

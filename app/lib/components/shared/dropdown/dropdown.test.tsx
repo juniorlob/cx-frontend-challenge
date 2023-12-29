@@ -69,4 +69,28 @@ describe('Dropdown Component', () => {
 
     expect(mockOnChange).toHaveBeenCalledWith({ testDropdown: mockOption2.id })
   })
+
+  it('should call not onChange when an selected option is clicked', () => {
+    const [mockOption1, mockOption2] = mockOptions
+
+    const mockOnChange = jest.fn()
+
+    render(
+      <Dropdown
+        options={mockOptions}
+        onChange={mockOnChange}
+        defaultValue={mockOption1.id}
+        label="Test Label"
+        name="testDropdown"
+      />
+    )
+
+    fireEvent.click(screen.getByText(mockOption1.name))
+
+    const allOptionElements = screen.getByRole('option', { selected: true })
+
+    fireEvent.click(allOptionElements)
+
+    expect(mockOnChange).not.toHaveBeenCalled()
+  })
 })
