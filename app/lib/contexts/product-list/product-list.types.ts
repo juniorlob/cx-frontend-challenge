@@ -19,14 +19,14 @@ export type ContextFilters = {
 }
 
 export type ContextValue = {
-  products?: Map<string, Product> | null
+  products: Map<string, Product>
   error: Error | null
   sort: SortOptions | undefined
   onParamsChange: (params: Partial<ProductQueryParams>) => void
   refetch: () => void
   queryParams?: ProductQueryParams
   query?: string
-  filters?: ContextFilters
+  filters: ContextFilters
 }
 
 export type ProductListHookTypes = {
