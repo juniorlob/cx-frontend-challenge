@@ -4,9 +4,6 @@ export const HOME_SEO = {
   DESCRIPTION: 'Buscar en MercadoLibre',
 }
 
-export const SEARCH = {
-  PLACEHOLDER: 'Buscar productos',
-}
 export const SORT = {
   LABEL: 'Ordenar por',
 }

@@ -1,19 +1,13 @@
 import { Inter } from '@next/font/google'
 import styles from '@/lib/styles/home.module.css'
-import Header from '@/lib/components/shared/header'
-import { CustomHead, Dropdown, Input } from '@/lib/components/shared'
+import { CustomHead, Dropdown, SearchHeader } from '@/lib/components/shared'
 import ProductList from '@/lib/components/shared/product-list'
 import { useProductsList } from '@/lib/contexts/product-list/use-product-list.hooks'
 import { productRequests } from '@/lib/services/product-list-requests.service'
 import { GetServerSidePropsContext } from 'next'
 import { DEFAULT_PRODUCT_FILTERS } from '@/lib/contexts/product-list'
 import { capitalizeFirstLetter } from '@/lib/utils/string.utils'
-import {
-  HOME_SEO,
-  INPUTS_NAME,
-  SEARCH,
-  SORT,
-} from '@/lib/constants/home.constants'
+import { HOME_SEO, INPUTS_NAME, SORT } from '@/lib/constants/home.constants'
 import { cx } from '@/lib/utils/class-name.utils'
 import { SearchType } from '@/lib/models/types/search.type'
 import { searchValidParams } from '@/lib/utils/url.utils'
@@ -38,33 +32,7 @@ export default function HomePage({ initialData }: Props) {
         }
         description={HOME_SEO.DESCRIPTION}
       />
-      <Header>
-        <form
-          role="search"
-          onSubmit={(event) => {
-            event.preventDefault()
-
-            const form = event.target as HTMLFormElement
-            const queryInput = form.elements.namedItem(
-              INPUTS_NAME.QUERY
-            ) as HTMLInputElement
-            const queryValue = queryInput.value
-
-            onParamsChange({
-              [INPUTS_NAME.QUERY]: queryValue,
-            })
-          }}
-        >
-          <Input
-            name={INPUTS_NAME.QUERY}
-            type="search"
-            defaultValue={query}
-            placeholder={SEARCH.PLACEHOLDER}
-            endAdornment
-            onChange={onParamsChange}
-          />
-        </form>
-      </Header>
+      <SearchHeader initialData={initialData} />
       <main className={cx(inter.className, styles.main)}>
         <div className={styles.container}>
           {products.size > 0 &&
