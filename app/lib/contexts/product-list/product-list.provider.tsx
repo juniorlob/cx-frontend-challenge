@@ -17,7 +17,7 @@ const ProductListProvider = ({ children }: ProductListContextProps) => {
   const { data, error, onParamsChange, params } = useDebouncedSearch<
     ProductQueryParams | undefined,
     SearchType
-  >(undefined, productRequests[ROUTE_TYPES.SEARCH], 300)
+  >({}, productRequests[ROUTE_TYPES.SEARCH], 300)
   const searchData = data && new Search(data as SearchType)
 
   const value: ContextValue = {
