@@ -1,4 +1,4 @@
-import { FILTERS_TYPE } from '@/lib/constants/filters'
+import { FILTERS_TYPE } from '@/lib/constants/filters.constansts'
 import {
   FilterModel,
   FilterValueModel,
