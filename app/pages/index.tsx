@@ -16,6 +16,7 @@ import {
 } from '@/lib/constants/home.constants'
 import { cx } from '@/lib/utils/class-name.utils'
 import { SearchType } from '@/lib/models/types/search.type'
+import { searchValidParams } from '@/lib/utils/url.utils'
 const inter = Inter({ subsets: ['latin'] })
 
 type Props = {
@@ -96,9 +97,11 @@ export default function HomePage({ initialData }: Props) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { query } = context
 
-  const initialFilters = { ...DEFAULT_PRODUCT_FILTERS, ...query }
+  const initialFilters = searchValidParams({
+    ...DEFAULT_PRODUCT_FILTERS,
+    ...query,
+  })
   const initialData = await productRequests.search(initialFilters)
-  console.log(initialData)
   return {
     props: {
       initialData,

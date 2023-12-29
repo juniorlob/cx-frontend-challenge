@@ -15,9 +15,9 @@ import { Search } from '@/lib/models/classes/search.model'
 
 const ProductListProvider = ({ children }: ProductListContextProps) => {
   const { data, error, onParamsChange, params } = useDebouncedSearch<
-    ProductQueryParams,
+    ProductQueryParams | undefined,
     SearchType
-  >({}, productRequests[ROUTE_TYPES.SEARCH], 300)
+  >(undefined, productRequests[ROUTE_TYPES.SEARCH], 300)
   const searchData = data && new Search(data as SearchType)
 
   const value: ContextValue = {
@@ -26,7 +26,7 @@ const ProductListProvider = ({ children }: ProductListContextProps) => {
     sort: searchData?.sortOptions,
     onParamsChange: (params: ProductQueryParams) => onParamsChange(params),
     refetch: () => onParamsChange({}),
-    queryParams: params || searchData?.queryParams,
+    queryParams: params || searchData?.queryParams(),
     query: searchData?.query,
     filters: searchData?.filtersOptions(),
   }

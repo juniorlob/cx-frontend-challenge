@@ -23,7 +23,7 @@ export type ContextValue = {
   sort: SortOptions | undefined
   onParamsChange: (params: Partial<ProductQueryParams>) => void
   refetch: () => void
-  queryParams: ProductQueryParams
+  queryParams?: ProductQueryParams
   query?: string
   filters?: ContextFilters
 }

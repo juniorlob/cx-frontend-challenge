@@ -2,7 +2,9 @@ import { HttpService } from '@/lib/services/http.service'
 
 export const apiDataFetcher =
   (apiRoute: string) =>
-  async (filters: Record<string, string | undefined | string[] | number>) => {
+  async (
+    filters: Record<string, string | undefined | string[] | number> | undefined
+  ) => {
     if (!apiRoute) {
       console.warn('apiRoute is required')
       return

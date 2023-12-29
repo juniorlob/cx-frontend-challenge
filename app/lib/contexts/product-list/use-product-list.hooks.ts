@@ -7,8 +7,8 @@ import {
   ProductListHookTypes,
 } from '@/lib/contexts/product-list/product-list.types'
 import { useDebounce } from '@/lib/hooks/use-debounce.hook'
-import { sortByKey } from '@/lib/utils/array.utils'
 import { Search } from '@/lib/models/classes/search.model'
+import { searchValidParams } from '@/lib/utils/url.utils'
 
 const useProductListContext = () => {
   const productListContext = useContext(ProductsListContext)
@@ -45,9 +45,8 @@ export const useProductsList = ({ initialData }: ProductListHookTypes) => {
   }, [debounceUpdateQueryParams])
 
   const productsList = products || initialSearchData.results
-
   const onParamsChange = (params: Partial<ProductQueryParams>) => {
-    paramsHandleChange(params)
+    paramsHandleChange(searchValidParams({ ...ssrQueryParams, ...params }))
   }
 
   return {
@@ -55,6 +54,5 @@ export const useProductsList = ({ initialData }: ProductListHookTypes) => {
     sort: sort || initialSearchData?.sortOptions,
     query: query || initialSearchData?.query,
     onParamsChange,
-    refetch,
   }
 }
