@@ -8,12 +8,13 @@ import {
   fireEvent,
   render,
   screen,
+  waitFor,
 } from '@/lib/utils/jest-wrapper.utils'
 import { Product } from '@/lib/models/classes/product.model'
 import { sortMock, sortsMock } from '@/lib/mocks/sort.mock'
 import { SEARCH } from '@/lib/constants/home.constants'
-import { Search } from '@/lib/models/classes/search.model'
-import { searchMock, searchModelMock } from '@/lib/mocks/search.mock'
+import { searchMock } from '@/lib/mocks/search.mock'
+import { faker } from '@faker-js/faker'
 
 jest.mock('@/lib/contexts/product-list/use-product-list.hooks')
 
@@ -43,8 +44,8 @@ describe('Home Page', () => {
         current: currentSort,
       },
       refetch: jest.fn(),
-      filters: { q: '' },
-      onFiltersChange: jest.fn(),
+      onParamsChange: jest.fn(),
+      query: faker.word.words({ count: 1 }),
     })
   })
 
@@ -57,13 +58,15 @@ describe('Home Page', () => {
   })
 
   it('renders input and handles search', () => {
-    const { onFiltersChange } = mockedUseProductsList({})
-    render(<Home />)
+    const { onParamsChange } = mockedUseProductsList({
+      initialData: searchMockItem,
+    })
+    render(<Home initialData={searchMockItem} />)
 
     fireEvent.change(screen.getByPlaceholderText(SEARCH.PLACEHOLDER), {
       target: { value: 'phone' },
     })
-    expect(onFiltersChange).toHaveBeenCalledWith({ q: 'phone' })
+    expect(onParamsChange).toHaveBeenCalledWith({ q: 'phone' })
   })
 
   it('renders ProductList when there are products', () => {
@@ -71,41 +74,48 @@ describe('Home Page', () => {
       ...searchMockItem,
       results: [...searchMockItem.results, productMockItem],
     }
-    const {} = mockedUseProductsList({ initialData })
-    render(<Home />)
+    render(<Home initialData={initialData} />)
     expect(screen.getByText(productMockItem.title)).toBeInTheDocument()
   })
 
   it('calls refetch when the form is submitted', async () => {
-    const { refetch } = mockedUseProductsList({})
-    render(<Home initialFilters={{}} />)
+    const { onParamsChange } = mockedUseProductsList({
+      initialData: searchMockItem,
+    })
+    render(<Home initialData={searchMockItem} />)
 
     fireEvent.submit(screen.getByRole('search'))
 
-    expect(refetch).toHaveBeenCalled()
+    expect(onParamsChange).toHaveBeenCalled()
   })
 
   it('updates the filter when the input value changes', () => {
-    const { onFiltersChange } = mockedUseProductsList({})
-    render(<Home initialFilters={{}} />)
+    const { onParamsChange } = mockedUseProductsList({
+      initialData: searchMockItem,
+    })
+    render(<Home initialData={searchMockItem} />)
 
     fireEvent.change(screen.getByPlaceholderText(SEARCH.PLACEHOLDER), {
       target: { value: 'laptop' },
     })
-
-    expect(onFiltersChange).toHaveBeenCalledWith({ q: 'laptop' })
+    waitFor(
+      () => expect(onParamsChange).toHaveBeenCalledWith({ q: 'laptop' }),
+      { timeout: 300 }
+    )
   })
 
-  it('calls onFiltersChange when every dropdown option is selected', () => {
-    render(<Home />)
+  it('calls onParamsChange when every dropdown option is selected', () => {
     const {
-      onFiltersChange,
+      onParamsChange,
       sort: { current, available: mockOptions },
-    } = mockedUseProductsList({})
-    fireEvent.click(screen.getByText(current.name))
-    mockOptions.forEach((option) => {
+    } = mockedUseProductsList({ initialData: searchMockItem })
+
+    render(<Home initialData={searchMockItem} />)
+
+    fireEvent.click(screen.getByText(current!.name))
+    mockOptions!.forEach((option) => {
       fireEvent.click(screen.getByText(option.name))
-      expect(onFiltersChange).toHaveBeenCalledWith({ sort: option.id })
+      expect(onParamsChange).toHaveBeenCalledWith({ sort: option.id })
       fireEvent.click(screen.getByText(option.name))
     })
   })
@@ -114,13 +124,13 @@ describe('Home Page', () => {
     const sortedProducts = productListModelMock
     mockedUseProductsList.mockReturnValueOnce({
       products: sortedProducts,
-      filters: {},
       sort: { current: currentSort, available: availableSort },
-      onFiltersChange: function (): void {},
+      onParamsChange: function (): void {},
       refetch: function (): void {},
+      query: faker.word.words({ count: 1 }),
     })
 
-    render(<Home />)
+    render(<Home initialData={searchMockItem} />)
     fireEvent.click(screen.getByText(currentSort.name))
     fireEvent.click(
       screen.getByText(
