@@ -5,6 +5,7 @@ import { SortType } from '@/lib/models/types/sort.type'
 
 export type ProductListContextProps = {
   children: React.ReactNode
+  ssrData: SearchType
 }
 
 export type SortOptions = {

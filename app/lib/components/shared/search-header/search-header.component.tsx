@@ -4,10 +4,8 @@ import { SearchHeaderProps } from '@/lib/components/shared/search-header/search-
 import { INPUTS_NAME } from '@/lib/constants/home.constants'
 import { useProductsList } from '@/lib/contexts/product-list'
 
-const SearchHeader = ({ initialData }: SearchHeaderProps) => {
-  const { onParamsChange, query } = useProductsList({
-    initialData,
-  })
+const SearchHeader = () => {
+  const { onParamsChange, query } = useProductsList()
 
   return (
     <Header>

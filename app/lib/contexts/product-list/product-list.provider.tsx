@@ -13,22 +13,30 @@ import {
 import { ProductsListContext } from '@/lib/contexts/product-list/products-list.context'
 import { Search } from '@/lib/models/classes/search.model'
 
-const ProductListProvider = ({ children }: ProductListContextProps) => {
+const ProductListProvider = ({
+  children,
+  ssrData,
+}: ProductListContextProps) => {
+  const ssrSearchData = new Search(ssrData)
+
   const { data, error, onParamsChange, params } = useDebouncedSearch<
     ProductQueryParams | undefined,
     SearchType
-  >({}, productRequests[ROUTE_TYPES.SEARCH], 300)
-  const searchData = data && new Search(data as SearchType)
+  >(ssrSearchData.queryParams(), productRequests[ROUTE_TYPES.SEARCH], 300)
+
+  const clientSideData = data && new Search(data)
+
+  const searchData = clientSideData || ssrSearchData
 
   const value: ContextValue = {
-    products: searchData?.results || null,
+    products: searchData.results,
     error,
-    sort: searchData?.sortOptions,
+    sort: searchData.sortOptions,
     onParamsChange: (params: ProductQueryParams) => onParamsChange(params),
     refetch: () => onParamsChange({}),
-    queryParams: params || searchData?.queryParams(),
-    query: searchData?.query,
-    filters: searchData?.filtersOptions(),
+    queryParams: params,
+    query: searchData.query,
+    filters: searchData.filtersOptions(),
   }
 
   return (

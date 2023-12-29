@@ -7,7 +7,7 @@ import ProductListProvider from '@/lib/contexts/product-list/product-list.provid
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ProductListProvider>
+    <ProductListProvider ssrData={pageProps.initialSearchData}>
       <Component {...pageProps} />
     </ProductListProvider>
   )

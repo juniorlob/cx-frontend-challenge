@@ -1,6 +1,11 @@
 import { Inter } from '@next/font/google'
 import styles from '@/lib/styles/home.module.css'
-import { CustomHead, Dropdown, SearchHeader } from '@/lib/components/shared'
+import {
+  CustomHead,
+  Dropdown,
+  Filters,
+  SearchHeader,
+} from '@/lib/components/shared'
 import ProductList from '@/lib/components/shared/product-list'
 import { useProductsList } from '@/lib/contexts/product-list/use-product-list.hooks'
 import { productRequests } from '@/lib/services/product-list-requests.service'
@@ -13,14 +18,9 @@ import { SearchType } from '@/lib/models/types/search.type'
 import { searchValidParams } from '@/lib/utils/url.utils'
 const inter = Inter({ subsets: ['latin'] })
 
-type Props = {
-  initialData: SearchType
-}
-export default function HomePage({ initialData }: Props) {
-  const productList = useProductsList({
-    initialData,
-  })
-  const { products, sort, query, onParamsChange } = productList
+export default function HomePage() {
+  const productList = useProductsList()
+  const { products, sort, query, filters, onParamsChange } = productList
 
   return (
     <>
@@ -32,7 +32,7 @@ export default function HomePage({ initialData }: Props) {
         }
         description={HOME_SEO.DESCRIPTION}
       />
-      <SearchHeader initialData={initialData} />
+      <SearchHeader />
       <main className={cx(inter.className, styles.main)}>
         <div className={styles.container}>
           {products.size > 0 &&
@@ -49,7 +49,9 @@ export default function HomePage({ initialData }: Props) {
               </div>
             )}
           <div className={styles.content}>
-            <aside className={styles.sidebar}>{/* <Filters /> */}</aside>
+            <aside className={styles.sidebar}>
+              <Filters filters={filters} onFilterChange={onParamsChange} />
+            </aside>
             {products.size > 0 && (
               <section className={styles.productListWrapper}>
                 <ProductList products={products} />
@@ -69,10 +71,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     ...DEFAULT_PRODUCT_FILTERS,
     ...query,
   })
-  const initialData = await productRequests.search(initialFilters)
+  const initialSearchData = await productRequests.search(initialFilters)
   return {
     props: {
-      initialData,
+      initialSearchData,
     },
   }
 }
