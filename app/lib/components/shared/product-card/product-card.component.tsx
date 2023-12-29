@@ -21,7 +21,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <div className={styles.priceShippingWrapper}>
           <div className={styles.price}>
             {formatCurrency(product.price.amount, product.price.currency)}
-            {product.free_shipping && (
+            {product.freeShipping && (
               <span
                 data-testid={TEST_IDS.SHIPPING_ICON}
                 className={styles.freeShipping}

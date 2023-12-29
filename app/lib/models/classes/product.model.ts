@@ -73,7 +73,7 @@ export class Product {
     return this._condition
   }
 
-  get free_shipping() {
+  get freeShipping() {
     return this._free_shipping
   }
 }
