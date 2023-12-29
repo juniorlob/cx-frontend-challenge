@@ -13,6 +13,7 @@ export const SEARCH_PARAMS_VALIDATOR: SearchParamsValidatorType = {
     return typeof value === 'string'
   },
   limit: (value: unknown): boolean => {
-    return typeof value === 'number' && value > 0
+    const limitNumber = Number(value)
+    return typeof !isNaN(limitNumber) && limitNumber > 0
   },
 }
