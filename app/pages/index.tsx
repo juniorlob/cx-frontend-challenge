@@ -6,10 +6,8 @@ import ProductList from '@/lib/components/shared/product-list'
 import { useProductsList } from '@/lib/contexts/product-list/use-product-list.hooks'
 import { productRequests } from '@/lib/services/product-list-requests.service'
 import { GetServerSidePropsContext } from 'next'
-import { ProductFilter } from '@/lib/contexts/product-list/product-list.types'
 import { DEFAULT_PRODUCT_FILTERS } from '@/lib/contexts/product-list'
 import { capitalizeFirstLetter } from '@/lib/utils/string.utils'
-import { ProductType } from '@/lib/models/types/product.type'
 import {
   HOME_SEO,
   INPUTS_NAME,
@@ -21,23 +19,20 @@ import { SearchType } from '@/lib/models/types/search.type'
 const inter = Inter({ subsets: ['latin'] })
 
 type Props = {
-  initialData?: SearchType
-  initialFilters?: ProductFilter
+  initialData: SearchType
 }
-export default function HomePage({ initialData, initialFilters }: Props) {
-  const { products, sort, refetch, filters, onFiltersChange } = useProductsList(
-    {
-      initialData,
-      initialFilters,
-    }
-  )
+export default function HomePage({ initialData }: Props) {
+  const productList = useProductsList({
+    initialData,
+  })
+  const { products, sort, query, onParamsChange } = productList
 
   return (
     <>
       <CustomHead
         title={
-          filters.q
-            ? `${capitalizeFirstLetter(filters.q)} - ${HOME_SEO.SITE_NAME}`
+          query
+            ? `${capitalizeFirstLetter(query)} - ${HOME_SEO.SITE_NAME}`
             : `${HOME_SEO.TITLE} - ${HOME_SEO.SITE_NAME}`
         }
         description={HOME_SEO.DESCRIPTION}
@@ -47,39 +42,51 @@ export default function HomePage({ initialData, initialFilters }: Props) {
           role="search"
           onSubmit={(event) => {
             event.preventDefault()
-            refetch()
+
+            const form = event.target as HTMLFormElement
+            const queryInput = form.elements.namedItem(
+              INPUTS_NAME.QUERY
+            ) as HTMLInputElement
+            const queryValue = queryInput.value
+
+            onParamsChange({
+              [INPUTS_NAME.QUERY]: queryValue,
+            })
           }}
         >
           <Input
             name={INPUTS_NAME.QUERY}
             type="search"
-            defaultValue={initialFilters?.q}
+            defaultValue={query}
             placeholder={SEARCH.PLACEHOLDER}
             endAdornment
-            onChange={onFiltersChange}
+            onChange={onParamsChange}
           />
         </form>
       </Header>
       <main className={cx(inter.className, styles.main)}>
         <div className={styles.container}>
-          {products.size > 0 && sort.available.length > 0 && (
-            <div className={styles.sortWrapper}>
-              <Dropdown
-                name={INPUTS_NAME.SORT}
-                label={SORT.LABEL}
-                onChange={onFiltersChange}
-                defaultValue={sort.current?.id}
-                options={sort.available}
-              />
-            </div>
-          )}
-          {products.size > 0 && (
-            <section className={styles.productListSection}>
-              <div className={styles.productListWrapper}>
-                <ProductList products={products} />
+          {products.size > 0 &&
+            sort?.available &&
+            sort.available.length > 0 && (
+              <div className={styles.sortWrapper}>
+                <Dropdown
+                  name={INPUTS_NAME.SORT}
+                  label={SORT.LABEL}
+                  onChange={onParamsChange}
+                  defaultValue={sort.current?.id}
+                  options={sort.available}
+                />
               </div>
-            </section>
-          )}
+            )}
+          <div className={styles.content}>
+            <aside className={styles.sidebar}>{/* <Filters /> */}</aside>
+            {products.size > 0 && (
+              <section className={styles.productListWrapper}>
+                <ProductList products={products} />
+              </section>
+            )}
+          </div>
         </div>
       </main>
     </>
@@ -88,13 +95,13 @@ export default function HomePage({ initialData, initialFilters }: Props) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { query } = context
-  const initialFilters = { ...DEFAULT_PRODUCT_FILTERS, ...query }
-  const data = await productRequests.search(initialFilters)
 
+  const initialFilters = { ...DEFAULT_PRODUCT_FILTERS, ...query }
+  const initialData = await productRequests.search(initialFilters)
+  console.log(initialData)
   return {
     props: {
-      initialData: data,
-      initialFilters,
+      initialData,
     },
   }
 }

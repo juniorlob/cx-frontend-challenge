@@ -3,11 +3,12 @@ import useUpdateQueryParams from '@/lib/hooks/use-update-query-params.hook'
 import { Product } from '@/lib/models/classes/product.model'
 import { ProductsListContext } from '@/lib/contexts/product-list/products-list.context'
 import {
-  ProductFilter,
+  ProductQueryParams,
   ProductListHookTypes,
 } from '@/lib/contexts/product-list/product-list.types'
 import { useDebounce } from '@/lib/hooks/use-debounce.hook'
 import { sortByKey } from '@/lib/utils/array.utils'
+import { Search } from '@/lib/models/classes/search.model'
 
 const useProductListContext = () => {
   const productListContext = useContext(ProductsListContext)
@@ -21,43 +22,39 @@ const useProductListContext = () => {
   return productListContext
 }
 
-export const useProductsList = ({
-  initialData,
-  initialFilters,
-}: ProductListHookTypes) => {
+export const useProductsList = ({ initialData }: ProductListHookTypes) => {
   const {
     products,
-    onFiltersChange: handleFiltersChange,
+    onParamsChange: paramsHandleChange,
     refetch,
-    sort: { available, current },
-    filters,
+    sort,
+    query,
+    queryParams,
   } = useProductListContext()
 
+  const initialSearchData = new Search(initialData)
+  const ssrQueryParams = queryParams || initialSearchData?.queryParams()
+
   const updateQueryParams = useUpdateQueryParams()
-  const debounceUpdateQueryParams = useDebounce(filters, 300)
+
+  const debounceUpdateQueryParams = useDebounce(ssrQueryParams, 300)
 
   useEffect(() => {
     updateQueryParams(debounceUpdateQueryParams)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounceUpdateQueryParams])
 
-  const productsList =
-    (products?.size && products.size > 0 && products) ||
-    new Map(
-      initialData?.results.map((product) => [product.id, new Product(product)])
-    )
+  const productsList = products || initialSearchData.results
 
-  const onFiltersChange = (filters: ProductFilter) => {
-    handleFiltersChange({ ...initialFilters, ...filters })
+  const onParamsChange = (params: Partial<ProductQueryParams>) => {
+    paramsHandleChange(params)
   }
-
-  const sortOptions = available && sortByKey(available, 'id')?.reverse()
 
   return {
     products: productsList,
-    filters: { ...initialFilters, ...filters },
-    sort: { available: sortOptions || [], current },
-    onFiltersChange,
+    sort: sort || initialSearchData?.sortOptions,
+    query: query || initialSearchData?.query,
+    onParamsChange,
     refetch,
   }
 }

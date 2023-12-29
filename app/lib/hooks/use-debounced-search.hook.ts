@@ -1,17 +1,22 @@
 import { useDebounce } from '@/lib/hooks/use-debounce.hook'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
-const useDebouncedSearch = <FilterType, ReturnType>(
-  initialFilters: FilterType,
-  fetchFunction: (filters: FilterType) => Promise<ReturnType>,
+const useDebouncedSearch = <ParamsType, ReturnType>(
+  initialParams: ParamsType,
+  fetchFunction: (filters: ParamsType) => Promise<ReturnType>,
   debounceTime: number = 300
 ) => {
-  const [filters, setFilters] = useState<FilterType>(initialFilters)
-  const debouncedFilters = useDebounce(filters, debounceTime)
+  const [params, setParams] = useState<ParamsType>(initialParams)
+  const debouncedFilters = useDebounce(params, debounceTime)
   const [data, setData] = useState<ReturnType>()
   const [error, setError] = useState<Error | null>(null)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    if (!isMounted) {
+      setIsMounted(true)
+      return
+    }
     const fetchData = async () => {
       try {
         const response = await fetchFunction(debouncedFilters)
@@ -22,14 +27,15 @@ const useDebouncedSearch = <FilterType, ReturnType>(
         )
       }
     }
-
     fetchData()
-  }, [debouncedFilters, fetchFunction])
-  const onFiltersChange = (filter: Partial<FilterType>) => {
-    setFilters((prev) => ({ ...prev, ...filter }))
-  }
 
-  return { data, error, filters, onFiltersChange }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedFilters, fetchFunction])
+
+  const onParamsChange = (params: Partial<ParamsType>) =>
+    setParams((prev) => ({ ...prev, ...params }))
+
+  return { data, error, params, onParamsChange }
 }
 
 export default useDebouncedSearch

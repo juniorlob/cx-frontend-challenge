@@ -3,7 +3,9 @@ import { useRouter } from 'next/router'
 const useUpdateQueryParams = () => {
   const router = useRouter()
 
-  const updateQueryParams = (newParams: Record<string, string | string[]>) => {
+  const updateQueryParams = (
+    newParams: Record<string, string | string[] | number | undefined>
+  ) => {
     const currentPath = router.pathname
     const currentQuery = router.query
 

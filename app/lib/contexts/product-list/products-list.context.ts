@@ -4,10 +4,11 @@ import { createContext } from 'react'
 export const ProductsListContext = createContext<ContextValue>({
   products: null,
   error: null,
-  onFiltersChange: () => {},
+  onParamsChange: () => {},
   refetch: () => {},
   sort: {
     available: [],
   },
-  filters: {},
+  queryParams: {},
+  query: undefined,
 })

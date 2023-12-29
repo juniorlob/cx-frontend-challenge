@@ -1,11 +1,5 @@
-.productListSection {
-  justify-content: center;
-  display: flex;
-  padding-bottom: calc(var(--spacer) * 8);
-}
 .productListWrapper {
   width: 100%;
-  max-width: var(--container);
   background-color: var(--white);
   padding: calc(var(--spacer) * 1.5) calc(var(--spacer) * 2);
   border-radius: var(--border-radius);
@@ -25,6 +19,15 @@
   justify-content: flex-end;
   margin-bottom: calc(var(--spacer) * 2);
   padding: 0 calc(var(--spacer) * 1.5);
+}
+.content {
+  display: flex;
+  justify-content: center;
+  padding-bottom: calc(var(--spacer) * 8);
+}
+
+.sidebar {
+  min-width: 210px;
 }
 
 @media screen and (max-width: 320px) {
