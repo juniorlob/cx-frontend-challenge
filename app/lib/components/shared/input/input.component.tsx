@@ -24,7 +24,7 @@ const Input = ({
         defaultValue={defaultValue}
       />
       {endAdornment && (
-        <button className={styles.endAdornment} aria-label={name}>
+        <button type="submit" className={styles.endAdornment} aria-label={name}>
           {endAdornment}
         </button>
       )}
