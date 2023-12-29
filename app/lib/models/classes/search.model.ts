@@ -14,15 +14,17 @@ export class Search {
   private _query?: string
   private _paging?: PagingType
 
-  constructor({
-    results,
-    sort,
-    available_sorts,
-    available_filters,
-    filters,
-    query,
-    paging,
-  }: SearchType) {
+  constructor(searchData: SearchType) {
+    const {
+      results,
+      sort,
+      available_sorts,
+      available_filters,
+      filters,
+      query,
+      paging,
+    } = searchData
+
     this._results = new Map(
       results.map((result) => [result.id, new Product(result)])
     )
