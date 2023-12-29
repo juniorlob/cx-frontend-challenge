@@ -3,6 +3,9 @@ import { productModelMock } from '@/lib/mocks/product.mock'
 import { formatCurrency } from '@/lib/utils/currency.utils'
 import { act, render, screen, axe } from '@/lib/utils/jest-wrapper.utils'
 import { TEST_IDS } from '@/lib/components/shared/product-card/product-card.constants'
+import { shippingMock } from '@/lib/mocks/shipping.mock'
+import { attributeMock } from '@/lib/mocks/attribute.mock'
+import { faker } from '@faker-js/faker'
 
 describe('ProductCard Component', () => {
   const product = productModelMock()
@@ -43,17 +46,21 @@ describe('ProductCard Component', () => {
   })
 
   test('renders the free shipping icon if product has free shipping', async () => {
-    product.free_shipping = true
+    const freeShippingProduct = productModelMock({
+      shipping: shippingMock({ free_shipping: true }),
+    })
     await act(async () => {
-      render(<ProductCard product={product} />)
+      render(<ProductCard product={freeShippingProduct} />)
     })
     expect(screen.getByTestId(TEST_IDS.SHIPPING_ICON)).toBeInTheDocument()
   })
 
   test('does not render the free shipping icon if product does not have free shipping', async () => {
-    product.free_shipping = false
+    const paidShippingProduct = productModelMock({
+      shipping: shippingMock({ free_shipping: false }),
+    })
     await act(async () => {
-      render(<ProductCard product={product} />)
+      render(<ProductCard product={paidShippingProduct} />)
     })
     expect(screen.queryByTestId(TEST_IDS.SHIPPING_ICON)).toBeNull()
   })
@@ -62,22 +69,31 @@ describe('ProductCard Component', () => {
     await act(async () => {
       render(<ProductCard product={product} />)
     })
-    expect(screen.getByText(product.address.state_name)).toBeInTheDocument()
+    expect(screen.getByText(product.address.stateName)).toBeInTheDocument()
   })
 
   test('renders the product condition when it is set to "new"', async () => {
-    product.condition = 'new'
+    const newConditionProduct = productModelMock({
+      condition: 'new',
+    })
     await act(async () => {
-      render(<ProductCard product={product} />)
+      render(<ProductCard product={newConditionProduct} />)
     })
     expect(screen.queryByTestId(TEST_IDS.CONDITION)).toBeInTheDocument()
   })
 
   test('does not render the product condition when it is undefined', async () => {
-    product.condition = undefined
-    await act(async () => {
-      render(<ProductCard product={product} />)
+    const noConditionProduct = productModelMock({
+      attributes: [
+        attributeMock({
+          id: faker.string.uuid(),
+        }),
+      ],
     })
+    await act(async () => {
+      render(<ProductCard product={noConditionProduct} />)
+    })
+    console.log(noConditionProduct)
     expect(screen.queryByTestId(TEST_IDS.CONDITION)).toBeNull()
   })
 

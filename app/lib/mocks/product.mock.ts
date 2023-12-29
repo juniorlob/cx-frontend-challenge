@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { shippingMock } from '@/lib/mocks/shipping.mock'
 import { installmentsMock } from '@/lib/mocks/installments.mock'
-import { addressMock } from '@/lib/mocks/address.mock'
+import { addressMock, addressModelMock } from '@/lib/mocks/address.mock'
 import { attributeMock } from '@/lib/mocks/attribute.mock'
 import { Product } from '@/lib/models/classes/product.model'
 import { Installments } from '@/lib/models/classes/installments.model'
@@ -17,7 +17,9 @@ export const productMock = (): ProductType => ({
   shipping: shippingMock(),
   installments: installmentsMock(),
   currency_id: faker.finance.currencyCode(),
-  attributes: Array.from({ length: 5 }, () => attributeMock('ITEM_CONDITION')),
+  attributes: Array.from({ length: 5 }, () =>
+    attributeMock({ id: 'ITEM_CONDITION' })
+  ),
   address: addressMock(),
 })
 
@@ -28,7 +30,9 @@ export const productsMock = (): ProductType[] => {
   )
 }
 
-export const productModelMock = (): Product =>
+export const productModelMock = (
+  customProperties: Partial<ProductType> = {}
+): Product =>
   new Product({
     id: faker.string.uuid(),
     title: faker.commerce.productName(),
@@ -39,9 +43,10 @@ export const productModelMock = (): Product =>
     installments: new Installments(installmentsMock()),
     currency_id: faker.finance.currencyCode(),
     attributes: Array.from({ length: 5 }, () =>
-      attributeMock('ITEM_CONDITION')
+      attributeMock({ id: 'ITEM_CONDITION' })
     ),
-    address: new Address(addressMock()),
+    address: addressMock(),
+    ...customProperties,
   })
 
 export const productListModelMock = new Map(

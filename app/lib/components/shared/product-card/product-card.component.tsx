@@ -28,8 +28,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
               ></span>
             )}
           </div>
-          {product.address.state_name && (
-            <div className={styles.location}>{product.address.state_name}</div>
+          {product.address.stateName && (
+            <div className={styles.location}>{product.address.stateName}</div>
           )}
         </div>
         <div className={styles.description}>
