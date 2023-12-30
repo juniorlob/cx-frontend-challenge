@@ -1,17 +1,13 @@
 import * as React from 'react'
-import { render as rtlRender } from '@testing-library/react'
+import { RenderOptions, render as rtlRender } from '@testing-library/react'
 import { ProductListProvider } from '@/lib/contexts/product-list'
 import { toHaveNoViolations } from 'jest-axe'
 
-export const Wrapper = ({ children }: { children: React.ReactNode }) => (
-  <ProductListProvider>{children}</ProductListProvider>
-)
-
-function render(ui: React.ReactElement, options = {}) {
+function render(ui: React.ReactElement, options: RenderOptions = {}) {
   expect.extend(toHaveNoViolations)
 
   const Wrapper = ({ children }: { children: React.ReactNode }) => (
-    <ProductListProvider>{children}</ProductListProvider>
+    <>{children}</>
   )
   return rtlRender(ui, { wrapper: Wrapper, ...options })
 }

@@ -12,9 +12,9 @@ import {
 } from '@/lib/utils/jest-wrapper.utils'
 import { Product } from '@/lib/models/classes/product.model'
 import { sortMock, sortsMock } from '@/lib/mocks/sort.mock'
-import { SEARCH } from '@/lib/constants/home.constants'
 import { searchMock } from '@/lib/mocks/search.mock'
 import { faker } from '@faker-js/faker'
+import { SEARCH } from '@/lib/components/shared/search-header/search-header.constants'
 
 jest.mock('@/lib/contexts/product-list/use-product-list.hooks')
 
@@ -43,57 +43,53 @@ describe('Home Page', () => {
         available: availableSort,
         current: currentSort,
       },
-      refetch: jest.fn(),
       onParamsChange: jest.fn(),
       query: faker.word.words({ count: 1 }),
+      filters: {},
     })
   })
 
   test('should be accessible', async () => {
-    const { container } = await act(async () =>
-      render(<Home initialData={searchMockItem} />)
-    )
+    const { container } = await act(async () => render(<Home />))
     const results = await axe(container)
     expect(results).toHaveNoViolations()
   })
 
-  it('renders input and handles search', () => {
-    const { onParamsChange } = mockedUseProductsList({
-      initialData: searchMockItem,
+  it('renders input and handles search', async () => {
+    const { onParamsChange } = mockedUseProductsList()
+    await act(async () => {
+      render(<Home />)
     })
-    render(<Home initialData={searchMockItem} />)
-
     fireEvent.change(screen.getByPlaceholderText(SEARCH.PLACEHOLDER), {
       target: { value: 'phone' },
     })
     expect(onParamsChange).toHaveBeenCalledWith({ q: 'phone' })
   })
 
-  it('renders ProductList when there are products', () => {
-    const initialData = {
+  it('renders ProductList when there are products', async () => {
+    const initialSearchData = {
       ...searchMockItem,
       results: [...searchMockItem.results, productMockItem],
     }
-    render(<Home initialData={initialData} />)
+    await act(async () => {
+      render(<Home />)
+    })
     expect(screen.getByText(productMockItem.title)).toBeInTheDocument()
   })
 
   it('calls refetch when the form is submitted', async () => {
-    const { onParamsChange } = mockedUseProductsList({
-      initialData: searchMockItem,
-    })
-    render(<Home initialData={searchMockItem} />)
-
+    const { onParamsChange } = mockedUseProductsList()
+    render(<Home />)
     fireEvent.submit(screen.getByRole('search'))
 
     expect(onParamsChange).toHaveBeenCalled()
   })
 
-  it('updates the filter when the input value changes', () => {
-    const { onParamsChange } = mockedUseProductsList({
-      initialData: searchMockItem,
+  it('updates the filter when the input value changes', async () => {
+    const { onParamsChange } = mockedUseProductsList()
+    await act(async () => {
+      render(<Home />)
     })
-    render(<Home initialData={searchMockItem} />)
 
     fireEvent.change(screen.getByPlaceholderText(SEARCH.PLACEHOLDER), {
       target: { value: 'laptop' },
@@ -104,33 +100,38 @@ describe('Home Page', () => {
     )
   })
 
-  it('calls onParamsChange when every dropdown option is selected', () => {
-    const {
-      onParamsChange,
-      sort: { current, available: mockOptions },
-    } = mockedUseProductsList({ initialData: searchMockItem })
+  it('calls onParamsChange when every dropdown option is selected', async () => {
+    const { onParamsChange, sort } = mockedUseProductsList()
 
-    render(<Home initialData={searchMockItem} />)
-
-    fireEvent.click(screen.getByText(current!.name))
-    mockOptions!.forEach((option) => {
-      fireEvent.click(screen.getByText(option.name))
-      expect(onParamsChange).toHaveBeenCalledWith({ sort: option.id })
-      fireEvent.click(screen.getByText(option.name))
+    await act(async () => {
+      render(<Home />)
     })
+
+    if (sort && sort.current && sort.available) {
+      const { current, available: mockOptions } = sort
+      fireEvent.click(screen.getByText(current.name))
+      mockOptions.forEach((option) => {
+        fireEvent.click(screen.getByText(option.name))
+        expect(onParamsChange).toHaveBeenCalledWith({ sort: option.id })
+        fireEvent.click(screen.getByText(option.name))
+      })
+    }
   })
 
-  it('updates product list based on selected dropdown option', () => {
+  it('updates product list based on selected dropdown option', async () => {
     const sortedProducts = productListModelMock
     mockedUseProductsList.mockReturnValueOnce({
       products: sortedProducts,
       sort: { current: currentSort, available: availableSort },
       onParamsChange: function (): void {},
-      refetch: function (): void {},
       query: faker.word.words({ count: 1 }),
+      filters: {},
     })
 
-    render(<Home initialData={searchMockItem} />)
+    await act(async () => {
+      render(<Home />)
+    })
+
     fireEvent.click(screen.getByText(currentSort.name))
     fireEvent.click(
       screen.getByText(

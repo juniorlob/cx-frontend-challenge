@@ -5,10 +5,10 @@ import { SortType } from '@/lib/models/types/sort.type'
 
 export type SearchType = {
   results: ProductType[]
-  sort: SortType
+  sort?: SortType
   available_sorts: SortType[]
   available_filters: FilterType[]
   filters: FilterType[] | undefined
   query: string | undefined
-  paging: PagingType
+  paging?: PagingType
 }

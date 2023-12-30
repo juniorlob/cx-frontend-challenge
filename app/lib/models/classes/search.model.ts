@@ -4,10 +4,12 @@ import { SortType } from '@/lib/models/types/sort.type'
 import { FilterModel } from '@/lib/models/classes/filters.model'
 import { sortByKey } from '@/lib/utils/array.utils'
 import { PagingType } from '@/lib/models/types/pagging.type'
+import { searchValidParams } from '@/lib/utils/url.utils'
+import { INITIAL_SEARCH } from '@/lib/contexts/product-list'
 
 export class Search {
   private _results: Map<string, Product>
-  private _sort: SortType
+  private _sort?: SortType
   private _availableSorts: SortType[]
   private _availableFilters: Map<string, FilterModel>
   private _filters?: Map<string, FilterModel>
@@ -23,12 +25,12 @@ export class Search {
       filters,
       query,
       paging,
-    } = searchData
+    } = searchData || INITIAL_SEARCH
 
     this._results = new Map(
       results.map((result) => [result.id, new Product(result)])
     )
-    this._sort = sort
+    this._sort = sort && sort
     this._availableSorts = available_sorts
     this._availableFilters = new Map(
       available_filters.map((filter) => [filter.id, new FilterModel(filter)])
@@ -65,25 +67,26 @@ export class Search {
   }
 
   get sortOptions() {
+    const availableSorts = this.sort
+      ? [this.sort, ...this.availableSorts]
+      : this.availableSorts
+
     return {
-      available: sortByKey(
-        [this.sort, ...this.availableSorts],
-        'name'
-      )?.reverse(),
+      available: sortByKey<SortType>(availableSorts, 'name')?.reverse(),
       current: this.sort,
     }
   }
-
   queryParams() {
     const filterEntries = this.filters
-      ? Array.from(this.filters, ([key, value]) => [key, value])
+      ? Array.from(this.filters, ([key, value]) => [key, value.values.get(key)])
       : []
-    return {
-      sort: this.sortOptions.current.id,
+    const queryParamsItems = searchValidParams({
+      sort: this.sortOptions.current?.id,
       q: this.query,
       limit: this._paging?.limit,
       ...Object.fromEntries(filterEntries),
-    }
+    })
+    return queryParamsItems
   }
 
   filtersOptions() {

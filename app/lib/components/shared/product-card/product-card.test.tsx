@@ -15,7 +15,6 @@ describe('ProductCard Component', () => {
       render(<ProductCard product={product} />)
     )
     const results = await axe(container)
-
     expect(results).toHaveNoViolations()
   })
 
@@ -93,7 +92,6 @@ describe('ProductCard Component', () => {
     await act(async () => {
       render(<ProductCard product={noConditionProduct} />)
     })
-    console.log(noConditionProduct)
     expect(screen.queryByTestId(TEST_IDS.CONDITION)).toBeNull()
   })
 
