@@ -22,11 +22,9 @@ export const INITIAL_STATE_CONTEXT = {
   ),
   error: null,
   onParamsChange: () => {},
-  refetch: () => {},
   sort: {
     available: [],
   },
-  queryParams: {},
   query: undefined,
   filters: {},
 }
