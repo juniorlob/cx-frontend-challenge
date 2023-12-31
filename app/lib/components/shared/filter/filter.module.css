@@ -1,0 +1,19 @@
+.filter {
+  margin-bottom: calc(var(--spacer) * 3.75);
+}
+
+.title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: calc(var(--spacer) * 1.25);
+}
+
+.listItem {
+  list-style: none;
+  font-size: 0.7rem;
+}
+
+.listItem:not(:last-child) {
+  margin-bottom: calc(var(--spacer) * 0.5);
+  line-height: 1.35;
+}

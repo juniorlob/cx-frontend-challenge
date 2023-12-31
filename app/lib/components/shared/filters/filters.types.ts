@@ -1,6 +1,6 @@
-import { FilterModel } from '@/lib/models/classes/filters.model'
+import { ContextFilters } from '@/lib/contexts/product-list/product-list.types'
 
 export type FiltersProps = {
-  onFilterChange: (data: { [key: string]: string }) => void
-  filters: Map<string, FilterModel>
+  onFilterChange?: (data: { [key: string]: string }) => void
+  filters: ContextFilters
 }

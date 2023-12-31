@@ -23,7 +23,7 @@ export const filtersMock = (): FilterType[] =>
   Array.from({ length: 3 }, () => filterMock())
 
 export const filterValueModelMock = (): FilterValueModel =>
-  new FilterValueModel(filterValuesMock())
+  new FilterValueModel(filterValuesMock(), filterModelMock())
 
 export const filterModelMock = (): FilterModel => new FilterModel(filterMock())
 

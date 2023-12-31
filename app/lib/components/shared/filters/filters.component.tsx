@@ -1,39 +1,27 @@
-import Filter from '@/lib/components/shared/filter/filter.component'
-import styles from './filters.module.css'
 import { FiltersProps } from '@/lib/components/shared/filters/filters.types'
+import styles from './filters.module.css'
+import { Filter } from '@/lib/components/shared'
+import { filtersRenderer } from '@/lib/renderers'
 
-const filters = [
-  {
-    id: 'price',
-    name: 'Precio',
-    type: 'range',
-    values: [
-      {
-        id: '*-25000.0',
-        name: 'Hasta $ 25.000',
-        results: 1,
-      },
-      {
-        id: '25000.0-150000.0',
-        name: '$25.000 a $150.000',
-        results: 3,
-      },
-      {
-        id: '150000.0-*',
-        name: 'Más de $150.000',
-        results: 3,
-      },
-    ],
-  },
-]
+const Filters = ({ filters, onFilterChange }: FiltersProps) => {
+  const handleFilterChange = (currentFilter: { [key: string]: string }) => {
+    onFilterChange?.(currentFilter)
+  }
 
-const Filters = ({ filters }: FiltersProps) => {
-  return (
-    <div>
-      {/* {filters.keys().map((key) => (
-        <Filter key={key} {...filters.get(key)} />
-      ))} */}
-    </div>
+  const filtersItems = Array.from(filters.available?.values() || []).flatMap(
+    (filterItem) => {
+      const renderFunctions = filtersRenderer[filterItem.id]
+      return renderFunctions ? (
+        <Filter
+          key={filterItem.id}
+          filter={filterItem}
+          setFilter={handleFilterChange}
+          renderFunctions={renderFunctions}
+        />
+      ) : null
+    }
   )
+
+  return <section className={styles.filtersSection}>{filtersItems}</section>
 }
 export default Filters

@@ -1,0 +1,10 @@
+.filterLink {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-weight: 300;
+}
+
+.results {
+  color: var(--text-light);
+  margin-left: calc(var(--spacer) * 0.75);
+}

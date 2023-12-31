@@ -4,11 +4,14 @@ export class FilterValueModel {
   private _id: string
   private _name: string
   private _results?: number
-  constructor(filterValueData: FilterValueType) {
+  private _filter: FilterModel
+
+  constructor(filterValueData: FilterValueType, filter: FilterModel) {
     const { id, name, results } = filterValueData
     this._id = id
     this._name = name
     this._results = results
+    this._filter = filter
   }
   get id() {
     return this._id
@@ -18,6 +21,10 @@ export class FilterValueModel {
   }
   get results() {
     return this._results
+  }
+
+  get filterId() {
+    return this._filter.id
   }
 }
 
@@ -32,7 +39,7 @@ export class FilterModel {
     this._name = name
     this._type = type
     this._values = new Map(
-      values.map((value) => [value.id, new FilterValueModel(value)])
+      values.map((value) => [value.id, new FilterValueModel(value, this)])
     )
   }
 
