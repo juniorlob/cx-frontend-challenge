@@ -1,6 +1,15 @@
 import FilterRange from '@/lib/components/shared/filter-range'
+import { FILTER_RANGE_TEST_IDS } from '@/lib/components/shared/filter-range/filter-range.constants'
+import { rangeValueBuilder } from '@/lib/components/shared/filter-range/filter-range.utils'
 import { filterModelMock } from '@/lib/mocks/filters.mock'
-import { act, axe, render } from '@/lib/utils/jest-wrapper.utils'
+import {
+  act,
+  axe,
+  fireEvent,
+  render,
+  screen,
+} from '@/lib/utils/jest-wrapper.utils'
+const filterMock = filterModelMock()
 
 describe('FilterRange Component', () => {
   test('should be accessible', async () => {
@@ -9,5 +18,22 @@ describe('FilterRange Component', () => {
     )
     const filterRangeResults = await axe(filterRangeContainer)
     expect(filterRangeResults).toHaveNoViolations()
+  })
+  test('should call setFilter when onSubmit is called', () => {
+    const mockSetFilter = jest.fn()
+    render(<FilterRange filter={filterMock} setFilter={mockSetFilter} />)
+
+    fireEvent.change(screen.getByPlaceholderText('Mínimo'), {
+      target: { value: '10' },
+    })
+    fireEvent.change(screen.getByPlaceholderText('Máximo'), {
+      target: { value: '20' },
+    })
+
+    fireEvent.submit(screen.getByTestId(FILTER_RANGE_TEST_IDS.FORM))
+
+    expect(mockSetFilter).toHaveBeenCalledWith({
+      [filterMock.id]: rangeValueBuilder({ min: '10', max: '20' }),
+    })
   })
 })

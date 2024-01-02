@@ -1,11 +1,7 @@
 import React, { useReducer } from 'react'
 import styles from './input-range.module.css'
 import Input from '@/lib/components/shared/input'
-import {
-  RangeInputAction,
-  RangeInputProps,
-  RangeInputState,
-} from '@/lib/components/shared/input-range/input-range.types'
+import { RangeInputProps } from '@/lib/components/shared/input-range/input-range.types'
 import { inputRangeReducer } from '@/lib/components/shared/input-range/input-range.utils'
 
 const RangeInput = ({

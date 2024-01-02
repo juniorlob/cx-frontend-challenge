@@ -3,7 +3,10 @@ import Button from '@/lib/components/shared/button'
 import { BUTTON_VARIANTS } from '@/lib/components/shared/button/button.constants'
 import { ICONS } from '@/lib/constants/icons.constants'
 import { FilterRenderFunctionProps } from '@/lib/components/shared/filter/filter.types'
-import { RANGE_FILTER_PATTERN } from '@/lib/components/shared/filter-range/filter-range.constants'
+import {
+  FILTER_RANGE_TEST_IDS,
+  RANGE_FILTER_PATTERN,
+} from '@/lib/components/shared/filter-range/filter-range.constants'
 import RangeInput from '@/lib/components/shared/input-range/input-range.component'
 import styles from './filter-range.module.css'
 import { RangeInputState } from '@/lib/components/shared/input-range/input-range.types'
@@ -15,16 +18,19 @@ const FilterRange = ({ filter, setFilter }: FilterRenderFunctionProps) => {
   const isDisabled = !filterValue?.min && !filterValue?.max
 
   const handleChange = (value: { [key: string]: RangeInputState }) => {
-    setFilterValue(value.range)
+    setFilterValue(value[filter.id])
   }
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault()
     if (filterValue) setFilter({ [filter.id]: rangeValueBuilder(filterValue) })
   }
-
   return (
-    <form onSubmit={onSubmit}>
+    <form
+      data-testid={FILTER_RANGE_TEST_IDS.FORM}
+      onSubmit={onSubmit}
+      method="post"
+    >
       <div className={styles.container}>
         <RangeInput
           name={filter.id}
@@ -42,6 +48,7 @@ const FilterRange = ({ filter, setFilter }: FilterRenderFunctionProps) => {
           theme="primary"
           disabled={isDisabled}
           className={styles.button}
+          buttonProps={{ type: 'submit' }}
         >
           Aplicar
         </Button>

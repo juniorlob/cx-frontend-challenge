@@ -12,6 +12,7 @@ export type ButtonProps = {
   theme: ThemeColors
   disabled?: boolean
   className?: string
+  buttonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>
 }
 
 export type ButtonVariants = Record<

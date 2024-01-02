@@ -17,6 +17,7 @@ const Button: React.FC<ButtonProps> = ({
   theme,
   disabled,
   className,
+  buttonProps,
 }) => {
   const commonClasses = cx(
     styles.button,
@@ -44,7 +45,11 @@ const Button: React.FC<ButtonProps> = ({
   }
 
   return (
-    <button disabled={disabled} {...buttonVariants[type].attributes}>
+    <button
+      disabled={disabled}
+      {...buttonVariants[type].attributes}
+      {...buttonProps}
+    >
       {buttonVariants[type].content}
     </button>
   )
