@@ -1,4 +1,5 @@
 import { FILTERS_TYPE } from '@/lib/constants/filters.constants'
+import { searchModelMock } from '@/lib/mocks/search.mock'
 import {
   FilterModel,
   FilterValueModel,
@@ -25,7 +26,13 @@ export const filtersMock = (): FilterType[] =>
 export const filterValueModelMock = (): FilterValueModel =>
   new FilterValueModel(filterValuesMock(), filterModelMock())
 
-export const filterModelMock = (): FilterModel => new FilterModel(filterMock())
+export const filterModelMock = (): FilterModel =>
+  new FilterModel(filterMock(), searchModelMock())
 
 export const filtersModelMock = (): Map<string, FilterModel> =>
-  new Map(filtersMock().map((item) => [item.id, new FilterModel(item)]))
+  new Map(
+    filtersMock().map((item) => [
+      item.id,
+      new FilterModel(item, searchModelMock()),
+    ])
+  )

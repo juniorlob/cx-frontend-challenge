@@ -26,5 +26,6 @@ export const INITIAL_STATE_CONTEXT = {
     available: [],
   },
   query: undefined,
-  filters: {},
+
+  filters: new Map(),
 }
