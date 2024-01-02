@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.separator {
+  color: var(--text-light);
+  font-size: 0.8rem;
+  padding: 0 calc(var(--spacer) * 0.625);
+  margin-top: calc(var(--spacer) * 1);
+}
+
+.input {
+  width: 84px;
+}

@@ -2,7 +2,6 @@
   outline: none;
   border: none;
   width: 100%;
-  padding: 10px 60px 10px 15px;
 }
 
 .input:focus {
@@ -32,6 +31,7 @@
   display: flex;
   position: relative;
   background-color: var(--white);
+  border-radius: var(--border-radius-small);
 }
 
 .endAdornment {
@@ -57,3 +57,49 @@
   display: block;
   margin: auto;
 }
+
+/* size  */
+.small {
+  padding: calc(var(--spacer) * 0.47) calc(var(--spacer) * 1.125);
+  font-size: 0.65rem;
+}
+.medium {
+  padding: 10px 60px 10px 15px;
+}
+.large {
+  padding: 10px 60px 10px 15px;
+  padding: calc(var(--spacer) * 1.25) calc(var(--spacer) * 6)
+    calc(var(--spacer) * 1.25) calc(var(--spacer) * 1.875);
+  font-size: 1.1rem;
+}
+
+/* end size  */
+
+/*  variants */
+
+.outlined {
+  border-width: 1px;
+  border-style: solid;
+  border-radius: var(--border-radius-small);
+}
+
+/* end  variants */
+
+/* theme */
+.outlined.primary {
+  border-color: var(--light-blue);
+}
+
+.outlined.gray {
+  border-color: var(--medium-gray);
+}
+
+/* end theme */
+
+/* rounded */
+
+.rounded {
+  border-radius: var(--border-radius-medium);
+}
+
+/* end rounded */
