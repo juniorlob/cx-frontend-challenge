@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styles from './dropdown.module.css' // Update with your CSS module path
+import styles from './dropdown.module.css'
 import {
   DropdownListProps,
   DropdownOption,
@@ -37,7 +37,7 @@ const Dropdown = ({
   name,
 }: DropdownProps) => {
   const [selected, setSelected] = useState<string | undefined>(defaultValue)
-
+  const [open, setOpen] = useState<boolean>(false)
   const handleChange = (value: string) => {
     onChange?.({ [name]: value })
     setSelected(value)
@@ -50,9 +50,12 @@ const Dropdown = ({
     <div className={styles.dropdownWrapper}>
       {label && <div className={styles.label}>{label}</div>}
       <Popover
+        onStateChange={setOpen}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         triggerContent={
-          <button className={styles.button}>{currentItemName}</button>
+          <button className={cx(styles.button, open && styles.buttonOpen)}>
+            {currentItemName}
+          </button>
         }
       >
         <DropdownList

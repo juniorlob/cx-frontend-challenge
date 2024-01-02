@@ -4,7 +4,10 @@ import {
 } from '@/lib/components/shared/popover/popover.types'
 import { useState, useCallback, useEffect, useRef } from 'react'
 
-const usePopover = (anchorOrigin: AnchorOrigin) => {
+const usePopover = (
+  anchorOrigin: AnchorOrigin,
+  onStateChange?: (open: boolean) => void
+) => {
   const [open, setOpen] = useState<boolean>(false)
   const triggerRef = useRef<HTMLButtonElement | null>(null)
   const contentRef = useRef<HTMLDivElement | null>(null)
@@ -34,6 +37,10 @@ const usePopover = (anchorOrigin: AnchorOrigin) => {
   }
 
   const handleClose = () => setOpen(false)
+
+  useEffect(() => {
+    if (onStateChange) onStateChange(open)
+  }, [onStateChange, open])
 
   return { open, handleOpen, handleClose, triggerRef, contentRef }
 }

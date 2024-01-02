@@ -10,10 +10,13 @@ import styles from './popover.module.css'
 const Popover = ({
   children,
   triggerContent,
+  onStateChange,
   anchorOrigin = { vertical: 'top', horizontal: 'left' },
 }: PopoverProps) => {
-  const { open, handleOpen, handleClose, triggerRef, contentRef } =
-    usePopover(anchorOrigin)
+  const { open, handleOpen, handleClose, triggerRef, contentRef } = usePopover(
+    anchorOrigin,
+    onStateChange
+  )
 
   useBodyScrollLock(open)
   useOutsideClickHandler<HTMLButtonElement | HTMLDivElement>(

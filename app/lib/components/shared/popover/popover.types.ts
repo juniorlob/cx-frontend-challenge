@@ -8,7 +8,8 @@ export type AnchorOrigin = {
 export type PopoverProps = {
   children: ReactNode
   triggerContent: React.ReactElement
-  anchorOrigin: AnchorOrigin
+  anchorOrigin?: AnchorOrigin
+  onStateChange?: (open: boolean) => void
 }
 
 export type PopoverPosition = {
