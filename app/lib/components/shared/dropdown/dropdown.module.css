@@ -41,16 +41,8 @@
 }
 
 .dropdownList {
-  background-color: white;
-  color: var(--text-secondary);
-  box-shadow: var(--box-shadow);
-  position: absolute;
   list-style-type: none;
   font-size: 0.7rem;
-  border-radius: var(--border-radius-medium);
-  transform: translateY(calc(var(--spacer) * 0.3));
-  right: 0;
-  overflow: hidden;
 }
 
 .listItem {

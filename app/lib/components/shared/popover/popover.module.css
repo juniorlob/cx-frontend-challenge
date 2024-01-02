@@ -1,0 +1,20 @@
+.popoverWrapper {
+  position: relative;
+  height: fit-content;
+  width: fit-content;
+}
+
+.popoverContent {
+  background-color: white;
+  color: var(--text-secondary);
+  box-shadow: var(--box-shadow);
+  position: fixed;
+  border-radius: var(--border-radius-medium);
+  transform: translateY(calc(var(--spacer) * 0.3));
+  overflow: hidden;
+  z-index: 99999;
+}
+
+.trigger {
+  position: relative;
+}
