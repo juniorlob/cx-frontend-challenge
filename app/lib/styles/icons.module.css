@@ -1,0 +1,22 @@
+.searchO,
+.deliveryTruck,
+.chevronUpO,
+.chevronRightO {
+  font-family: var(--icon-font);
+}
+
+.searchO::after {
+  content: var(--search-o);
+}
+
+.deliveryTruck::after {
+  content: var(--delivery-truck);
+}
+
+.chevronUpO::after {
+  content: var(--chevron-up-o);
+}
+
+.chevronRightO::after {
+  content: var(--chevron-right-o);
+}
