@@ -28,6 +28,7 @@ const SearchHeader = () => {
         <Input
           name={INPUTS_NAME.QUERY}
           type="search"
+          size="large"
           defaultValue={query}
           placeholder={SEARCH.PLACEHOLDER}
           endAdornment

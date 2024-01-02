@@ -4,6 +4,6 @@ import { FiltersType } from '@/lib/models/types/filters.type'
 import { filterItemRenderer } from '@/lib/renderers'
 
 const filtersRenderers: Record<FiltersType, FilterRenderFunction[]> = {
-  [FILTERS.PRICE]: [filterItemRenderer.links],
+  [FILTERS.PRICE]: [filterItemRenderer.links, filterItemRenderer.range],
 }
 export default filtersRenderers
