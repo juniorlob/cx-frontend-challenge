@@ -48,6 +48,7 @@ const Dropdown = ({
 }: DropdownProps) => {
   const [selected, setSelected] = useState<string | undefined>(defaultValue)
   const [open, setOpen] = useState<boolean>(false)
+
   const handleChange = (value: string) => {
     onChange?.({ [name]: value })
     setSelected(value)
@@ -61,7 +62,7 @@ const Dropdown = ({
       {label && <div className={styles.label}>{label}</div>}
       <Popover
         onStateChange={setOpen}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         triggerContent={
           <button className={cx(styles.button, open && styles.buttonOpen)}>
             {currentItemName}
