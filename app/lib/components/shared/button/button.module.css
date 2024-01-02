@@ -1,0 +1,45 @@
+.button:not(:disabled) {
+  cursor: pointer;
+}
+
+.iconButton {
+  padding: 0;
+  border: none;
+}
+
+.icon {
+  font-size: 0.95rem;
+}
+
+.icon::after {
+  display: block;
+}
+
+/* size */
+.small .smallIcon::after {
+  height: calc(var(--spacer) * 2.5);
+  width: calc(var(--spacer) * 2.5);
+}
+/* size end */
+
+/* rounded */
+.roundRounded {
+  border-radius: var(--border-radius-round);
+}
+
+.smallRounded {
+  border-radius: var(--border-radius-small);
+}
+
+/* end rounded */
+
+/* theme */
+.primary {
+  background-color: var(--light-blue);
+  color: var(--white);
+}
+
+.primary:disabled {
+  background-color: var(--medium-gray);
+}
+/* end theme */
