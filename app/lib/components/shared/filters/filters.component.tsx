@@ -8,7 +8,7 @@ const Filters = ({ filters, onFilterChange }: FiltersProps) => {
     onFilterChange?.(currentFilter)
   }
 
-  const filtersItems = Array.from(filters.available?.values() || []).flatMap(
+  const filtersItems = Array.from(filters.values() || []).flatMap(
     (filterItem) => {
       const renderFunctions = filtersRenderer[filterItem.id]
       return renderFunctions ? (

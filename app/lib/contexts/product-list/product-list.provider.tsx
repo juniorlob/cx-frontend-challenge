@@ -39,7 +39,7 @@ const ProductListProvider = ({
     sort: searchData.sortOptions,
     onParamsChange: (params: ProductQueryParams) => onParamsChange(params),
     query: searchData.query,
-    filters: searchData.filtersOptions(),
+    filters: searchData.getMergedFilterOptions(),
   }
 
   useEffect(() => {

@@ -13,10 +13,7 @@ export type SortOptions = {
   available?: SortType[]
 }
 
-export type ContextFilters = {
-  available?: Map<string, FilterModel>
-  current?: Map<string, FilterModel>
-}
+export type ContextFilters = Map<string, FilterModel>
 
 export type ContextValue = {
   products: Map<string, Product>

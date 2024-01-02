@@ -2,18 +2,23 @@ import Link from 'next/link'
 import styles from './filter-link.module.css'
 import useQueryLinkBuilder from '@/lib/hooks/use-query-link-builder'
 import { FilterLinkProps } from '@/lib/components/shared/filter-link/filter-link.types'
+import { cx } from '@/lib/utils/class-name.utils'
 
 const FilterLink = ({ value, setFilter }: FilterLinkProps) => {
   const linkBuilder = useQueryLinkBuilder()
-  const renderLink = linkBuilder({ [value.filterId]: value.id })
+  const filterLink = linkBuilder({ [value.filter.id]: value.id })
+  const removeFilterLink = linkBuilder({ [value.filter.id]: '' })
+  const isActive = value.isActive
+
   return (
     <Link
-      className={styles.filterLink}
-      href={renderLink}
+      className={cx(styles.filterLink, isActive && styles.activeFilterLink)}
+      href={isActive ? removeFilterLink : filterLink}
       shallow
       onClick={(event) => {
         event.preventDefault()
-        setFilter({ [value.filterId]: value.id })
+        if (isActive) return setFilter({ [value.filter.id]: '' })
+        setFilter({ [value.filter.id]: value.id })
       }}
     >
       <span>{value.name}</span>

@@ -1,4 +1,9 @@
-import { FilterType, FilterValueType } from '@/lib/models/types/filters.type'
+import { Search } from '@/lib/models/classes/search.model'
+import {
+  FilterType,
+  FilterTypes,
+  FilterValueType,
+} from '@/lib/models/types/filters.type'
 
 export class FilterValueModel {
   private _id: string
@@ -23,17 +28,26 @@ export class FilterValueModel {
     return this._results
   }
 
-  get filterId() {
-    return this._filter.id
+  get filter() {
+    return this._filter
+  }
+
+  get isActive() {
+    return (
+      this.filter.search.filters?.get(this.filter.id)?.values.get(this._id)
+        ?.id === this._id
+    )
   }
 }
 
 export class FilterModel {
   private _id: string
   private _name: string
-  private _type: string
+  private _type: FilterTypes
   private _values: Map<string, FilterValueModel>
-  constructor(filterData: FilterType) {
+  private _search: Search
+
+  constructor(filterData: FilterType, search: Search) {
     const { id, name, type, values } = filterData
     this._id = id
     this._name = name
@@ -41,6 +55,7 @@ export class FilterModel {
     this._values = new Map(
       values.map((value) => [value.id, new FilterValueModel(value, this)])
     )
+    this._search = search
   }
 
   get id() {
@@ -57,5 +72,9 @@ export class FilterModel {
 
   get values() {
     return this._values
+  }
+
+  get search() {
+    return this._search
   }
 }

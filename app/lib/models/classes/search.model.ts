@@ -33,10 +33,15 @@ export class Search {
     this._sort = sort && sort
     this._availableSorts = available_sorts
     this._availableFilters = new Map(
-      available_filters.map((filter) => [filter.id, new FilterModel(filter)])
+      available_filters.map((filter) => [
+        filter.id,
+        new FilterModel(filter, this),
+      ])
     )
     this._filters = filters
-      ? new Map(filters.map((filter) => [filter.id, new FilterModel(filter)]))
+      ? new Map(
+          filters.map((filter) => [filter.id, new FilterModel(filter, this)])
+        )
       : undefined
     this._query = query
     this._paging = paging
@@ -77,16 +82,25 @@ export class Search {
     }
   }
   queryParams() {
-    const filterEntries = this.filters
-      ? Array.from(this.filters, ([key, value]) => [key, value.values.get(key)])
+    const filterQueryParams = this.filters
+      ? Array.from(this.filters).map(([key, filter]) => {
+          const [_, firstFilterValue] = filter.values.entries().next().value
+          return [key, firstFilterValue ? firstFilterValue.id : undefined]
+        })
       : []
-    const queryParamsItems = searchValidParams({
-      sort: this.sortOptions.current?.id,
+
+    const sortOptionId = this.sortOptions?.current?.id
+    const pagingLimit = this._paging?.limit
+
+    const queryParams = {
+      sort: sortOptionId,
       q: this.query,
-      limit: this._paging?.limit,
-      ...Object.fromEntries(filterEntries),
-    })
-    return queryParamsItems
+      limit: pagingLimit,
+      ...Object.fromEntries(
+        filterQueryParams.filter(([_, valueId]) => valueId !== undefined)
+      ),
+    }
+    return searchValidParams(queryParams)
   }
 
   filtersOptions() {
@@ -94,5 +108,26 @@ export class Search {
       available: this.availableFilters,
       current: this.filters,
     }
+  }
+
+  getMergedFilterOptions() {
+    const mergedFilters = new Map<string, FilterModel>()
+
+    this.availableFilters.forEach((filter) => {
+      mergedFilters.set(filter.id, filter)
+    })
+
+    this.filters?.forEach((newFilter) => {
+      const existingFilter = mergedFilters.get(newFilter.id)
+      if (existingFilter) {
+        newFilter.values.forEach((value, valueId) => {
+          existingFilter.values.set(valueId, value)
+        })
+      } else {
+        mergedFilters.set(newFilter.id, newFilter)
+      }
+    })
+
+    return mergedFilters
   }
 }

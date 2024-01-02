@@ -6,7 +6,7 @@ export function formatCurrency(
     process.env.NEXT_PUBLIC_CURRENCY_LOCALE,
     {
       style: 'currency',
-      currency: currencyCode,
+      currency: currencyCode || 'ARS',
       minimumFractionDigits: 0,
     }
   )

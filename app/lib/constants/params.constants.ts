@@ -6,7 +6,7 @@ export const SEARCH_PARAMS_VALIDATOR: SearchParamsValidatorType = {
   },
   price: (value: unknown): boolean => {
     const priceFilterRegex =
-      /^(-?\d+(\.\d+)?-\d+(\.\d+)?|\*-?\d+(\.\d+)?|\d+(\.\d+)?-\*)$/
+      /^(-?\d+(\.\d+)?-\d+(\.\d+)?|\*-?\d+(\.\d+)?|\d+(\.\d+)?-\*|)$/
     return typeof value === 'string' && priceFilterRegex.test(value)
   },
   q: (value: unknown): boolean => {

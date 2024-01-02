@@ -50,7 +50,7 @@ export default function HomePage() {
               </div>
             )}
           <div className={styles.content}>
-            <FiltersSidebar />
+            {filters.size > 0 && <FiltersSidebar />}
             {products.size > 0 && (
               <section className={styles.productListWrapper}>
                 <ProductList products={products} />
