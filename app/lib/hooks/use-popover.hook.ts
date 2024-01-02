@@ -4,10 +4,14 @@ import {
 } from '@/lib/components/shared/popover/popover.types'
 import { useState, useCallback, useEffect, useRef } from 'react'
 
-const usePopover = (
-  anchorOrigin: AnchorOrigin,
+const usePopover = ({
+  anchorOrigin,
+  onStateChange,
+}: {
+  anchorOrigin: AnchorOrigin
   onStateChange?: (open: boolean) => void
-) => {
+  handleCLose?: () => void
+}) => {
   const [open, setOpen] = useState<boolean>(false)
   const triggerRef = useRef<HTMLButtonElement | null>(null)
   const contentRef = useRef<HTMLDivElement | null>(null)

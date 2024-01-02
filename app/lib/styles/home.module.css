@@ -27,13 +27,23 @@
   padding-left: calc(var(--spacer) * 2);
 }
 
-.sidebar {
-  min-width: 260px;
-  padding-right: calc(var(--spacer) * 1.75);
-}
-
 @media screen and (max-width: 320px) {
   .productListWrapper {
     padding: calc(var(--spacer) * 1.5) 0;
+  }
+  .sortWrapper {
+    margin-bottom: 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    flex-direction: column;
+    align-items: end;
+    padding-left: 0;
+  }
+
+  .sortWrapper {
+    margin-bottom: calc(var(--spacer) * 0.5);
   }
 }

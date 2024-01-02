@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactElement, ReactNode } from 'react'
 
 export type AnchorOrigin = {
   vertical: 'top' | 'bottom'
@@ -6,7 +6,7 @@ export type AnchorOrigin = {
 }
 
 export type PopoverProps = {
-  children: ReactNode
+  children: ReactElement<PopoverContentChildrenProps>
   triggerContent: React.ReactElement
   anchorOrigin?: AnchorOrigin
   onStateChange?: (open: boolean) => void
@@ -15,4 +15,13 @@ export type PopoverProps = {
 export type PopoverPosition = {
   top?: number
   left?: number
+}
+
+export type PopoverContentChildrenProps = {
+  onRequestClose?: () => void
+}
+export type PopoverContentProps = {
+  children: React.ReactElement<PopoverContentChildrenProps>
+  closePopover?: () => void
+  ref: React.Ref<HTMLDivElement>
 }

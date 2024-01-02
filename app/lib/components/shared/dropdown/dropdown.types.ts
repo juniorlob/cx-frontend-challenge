@@ -1,3 +1,5 @@
+import { PopoverContentChildrenProps } from '@/lib/components/shared/popover/popover.types'
+
 export type DropdownOption = {
   id: string
   name: string
@@ -11,7 +13,8 @@ export type DropdownProps = {
   label?: string
 }
 
-export type DropdownListProps = Partial<DropdownProps> & {
-  onClick: (value: string) => void
-  selected: string | undefined
-}
+export type DropdownListProps = Partial<DropdownProps> &
+  PopoverContentChildrenProps & {
+    onClick: (value: string) => void
+    selected: string | undefined
+  }

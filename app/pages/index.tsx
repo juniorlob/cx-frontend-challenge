@@ -4,6 +4,7 @@ import {
   CustomHead,
   Dropdown,
   Filters,
+  FiltersSidebar,
   SearchHeader,
 } from '@/lib/components/shared'
 import ProductList from '@/lib/components/shared/product-list'
@@ -49,9 +50,7 @@ export default function HomePage() {
               </div>
             )}
           <div className={styles.content}>
-            <aside className={styles.sidebar}>
-              <Filters filters={filters} onFilterChange={onParamsChange} />
-            </aside>
+            <FiltersSidebar />
             {products.size > 0 && (
               <section className={styles.productListWrapper}>
                 <ProductList products={products} />

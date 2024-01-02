@@ -1,0 +1,57 @@
+.sidebar {
+  min-width: 260px;
+  padding-right: calc(var(--spacer) * 1.75);
+}
+
+.button {
+  all: unset;
+  padding-right: 1rem;
+  transition: var(--transition);
+  color: var(--text-secondary);
+  font-weight: light;
+  font-size: 0.7rem;
+  margin-right: calc(var(--spacer) * 1.5);
+  margin-bottom: calc(var(--spacer) * 1);
+}
+
+.button:hover {
+  color: var(--light-blue);
+  cursor: pointer;
+}
+
+.button::after {
+  font-family: var(--icon-font);
+  content: var(--chevron-up-o);
+  position: absolute;
+  transform: rotate(-180deg);
+  transition: var(--transition);
+  color: var(--light-blue);
+
+  font-size: 1rem;
+  transform-origin: center 11px;
+  top: 4px;
+}
+
+.buttonOpen::after {
+  transform: rotate(0deg);
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    padding: calc(var(--spacer) * 1.5) calc(var(--spacer) * 1.5)
+      calc(var(--spacer) * 1.5) calc(var(--spacer) * 1.5);
+  }
+  .button {
+    margin-bottom: calc(var(--spacer) * 1);
+  }
+}
+@media screen and (max-width: 320px) {
+  .button {
+    font-size: 0.6rem;
+  }
+  .button::after {
+    font-size: 0.8rem;
+    transform-origin: center 9px;
+    top: 6px;
+  }
+}

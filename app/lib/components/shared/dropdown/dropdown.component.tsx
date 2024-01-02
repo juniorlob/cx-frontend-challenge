@@ -8,7 +8,12 @@ import {
 import { cx } from '@/lib/utils/class-name.utils'
 import Popover from '@/lib/components/shared/popover'
 
-const DropdownList = ({ options, onClick, selected }: DropdownListProps) => {
+const DropdownList = ({
+  options,
+  selected,
+  onClick,
+  onRequestClose,
+}: DropdownListProps) => {
   return (
     <ul className={styles.dropdownList}>
       {options?.map((option: DropdownOption) => {
@@ -19,7 +24,12 @@ const DropdownList = ({ options, onClick, selected }: DropdownListProps) => {
             role="option"
             aria-selected={isActive}
             className={cx(styles.listItem, isActive && styles.listItemActive)}
-            {...(!isActive && { onClick: () => onClick(option.id) })}
+            {...(!isActive && {
+              onClick: () => {
+                onClick(option.id)
+                onRequestClose?.()
+              },
+            })}
           >
             {option.name}
           </li>

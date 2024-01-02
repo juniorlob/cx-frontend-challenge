@@ -4,7 +4,11 @@ import useOutsideClickHandler from '@/lib/hooks/use-outside-click.hook'
 import useBodyScrollLock from '@/lib/hooks/use-body-scroll-lock.hook'
 import { cx } from '@/lib/utils/class-name.utils'
 import usePopover from '@/lib/hooks/use-popover.hook'
-import { PopoverProps } from '@/lib/components/shared/popover/popover.types'
+import {
+  PopoverContentChildrenProps,
+  PopoverContentProps,
+  PopoverProps,
+} from '@/lib/components/shared/popover/popover.types'
 import styles from './popover.module.css'
 
 const Popover = ({
@@ -13,10 +17,10 @@ const Popover = ({
   onStateChange,
   anchorOrigin = { vertical: 'top', horizontal: 'left' },
 }: PopoverProps) => {
-  const { open, handleOpen, handleClose, triggerRef, contentRef } = usePopover(
+  const { open, handleOpen, handleClose, triggerRef, contentRef } = usePopover({
     anchorOrigin,
-    onStateChange
-  )
+    onStateChange,
+  })
 
   useBodyScrollLock(open)
   useOutsideClickHandler<HTMLButtonElement | HTMLDivElement>(
@@ -39,7 +43,9 @@ const Popover = ({
       {open &&
         triggerRef?.current?.parentElement &&
         createPortal(
-          <PopoverContent ref={contentRef}>{children}</PopoverContent>,
+          <PopoverContent ref={contentRef} closePopover={handleClose}>
+            {children}
+          </PopoverContent>,
           triggerRef.current.parentElement
         )}
     </div>
@@ -48,13 +54,17 @@ const Popover = ({
 
 export default Popover
 
-const PopoverContent = forwardRef(function PopoverContent(
-  { children }: { children: React.ReactNode },
-  ref: React.Ref<HTMLDivElement>
-) {
-  return (
-    <div className={cx(styles.popoverContent)} ref={ref}>
-      {children}
-    </div>
-  )
-})
+const PopoverContent: React.FC<PopoverContentProps> = React.forwardRef(
+  function PopoverContent({ children, closePopover }, ref) {
+    const handleClose = () => {
+      closePopover?.()
+    }
+
+    return (
+      <div className={cx(styles.popoverContent)} ref={ref}>
+        {React.isValidElement<PopoverContentChildrenProps>(children) &&
+          React.cloneElement(children, { onRequestClose: handleClose })}
+      </div>
+    )
+  }
+)
