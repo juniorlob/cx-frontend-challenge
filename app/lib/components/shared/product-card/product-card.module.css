@@ -26,18 +26,18 @@
 }
 
 .title {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: normal;
 }
 
 .description {
   max-width: 85%;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .price {
   color: var(--text-primary);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: normal;
   display: flex;
   gap: calc(var(--spacer) * 1);
