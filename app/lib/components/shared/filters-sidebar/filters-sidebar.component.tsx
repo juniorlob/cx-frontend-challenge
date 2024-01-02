@@ -19,7 +19,7 @@ const FiltersSidebar = () => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         triggerContent={
           <button className={cx(styles.button, open && styles.buttonOpen)}>
-            Filtros
+            Filtrar
           </button>
         }
       >
