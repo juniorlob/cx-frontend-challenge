@@ -1,7 +1,8 @@
 .searchO,
 .deliveryTruck,
 .chevronUpO,
-.chevronRightO {
+.chevronRightO,
+.closeMs {
   font-family: var(--icon-font);
 }
 
@@ -19,4 +20,8 @@
 
 .chevronRightO::after {
   content: var(--chevron-right-o);
+}
+
+.closeMs::after {
+  content: var(--close-ms);
 }

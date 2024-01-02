@@ -2,6 +2,8 @@
   text-decoration: none;
   color: var(--text-secondary);
   font-weight: 300;
+  display: flex;
+  align-items: center;
 }
 
 .results {
@@ -12,4 +14,30 @@
 .activeFilterLink {
   font-weight: 700;
   color: black;
+}
+.filterLink:hover .removeIcon {
+  opacity: 1;
+}
+
+.removeIcon {
+  background-color: var(--light-blue);
+  color: var(--light-gray);
+  border-radius: var(--border-radius-round);
+  height: calc(var(--spacer) * 1.75);
+  width: calc(var(--spacer) * 1.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: calc(var(--spacer) * 0.5);
+  opacity: 1;
+}
+
+.removeIcon:hover {
+  cursor: pointer;
+}
+
+.removeIcon::after {
+  font-size: 0.3rem;
+  display: inline-block;
+  transform: translateY(1.5px);
 }
