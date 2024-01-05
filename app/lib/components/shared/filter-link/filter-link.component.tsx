@@ -9,7 +9,6 @@ import { ICONS } from '@/lib/constants/icons.constants'
 const FilterLink = ({ value, setFilter }: FilterLinkProps) => {
   const linkBuilder = useQueryLinkBuilder()
 
-  console.log({ value })
   const filterLink = linkBuilder({ [value.filterId]: value.id })
   const removeFilterLink = linkBuilder({ [value.filterId]: '' })
   const isActive = value.active
