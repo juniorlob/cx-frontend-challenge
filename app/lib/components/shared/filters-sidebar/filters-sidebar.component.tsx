@@ -11,22 +11,23 @@ const FiltersSidebar = () => {
   const isTablet = useBreakpoint('md')
   const isDesktop = useBreakpoint('lg')
 
-  if (isTablet || isDesktop) return <FiltersSidebarDesktop />
-  return (
-    <>
-      <Popover
-        onStateChange={setOpen}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        triggerContent={
-          <button className={cx(styles.button, open && styles.buttonOpen)}>
-            Filtrar
-          </button>
-        }
-      >
-        <FiltersSidebarDesktop />
-      </Popover>
-    </>
-  )
+  if (!isTablet && !isDesktop)
+    return (
+      <>
+        <Popover
+          onStateChange={setOpen}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          triggerContent={
+            <button className={cx(styles.button, open && styles.buttonOpen)}>
+              Filtrar
+            </button>
+          }
+        >
+          <FiltersSidebarDesktop />
+        </Popover>
+      </>
+    )
+  return <FiltersSidebarDesktop />
 }
 
 const FiltersSidebarDesktop: React.FC<PopoverContentChildrenProps> = ({
