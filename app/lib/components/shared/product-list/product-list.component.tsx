@@ -5,7 +5,7 @@ import { PRODUCT_LIST_TEST_IDS } from '@/lib/components/shared/product-list/prod
 const ProductList = ({ products }: ProductListProps) => {
   return (
     <ol className={styles.productList}>
-      {Array.from(products.entries()).map(([id, product]) => (
+      {products.map((product) => (
         <li
           key={product.id}
           data-testid={PRODUCT_LIST_TEST_IDS.PRODUCT_CARD}

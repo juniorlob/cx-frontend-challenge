@@ -1,19 +1,20 @@
 import { FILTERS_TYPE } from '@/lib/constants/filters.constants'
-import { searchModelMock } from '@/lib/mocks/search.mock'
 import {
-  FilterModel,
-  FilterValueModel,
-} from '@/lib/models/classes/filters.model'
-import { FilterType, FilterValueType } from '@/lib/models/types/filters.type'
+  FilterType,
+  FilterValueType,
+} from '@/store/features/search/search.types'
+
 import { faker } from '@faker-js/faker'
 
 const filterValuesMock = (): FilterValueType => ({
   id: faker.database.mongodbObjectId(),
   name: faker.word.words({ count: 1 }),
   results: faker.number.int(),
+  active: faker.datatype.boolean(),
+  filterId: faker.database.mongodbObjectId(),
 })
 
-const filterMock = (): FilterType => ({
+export const filterMock = (): FilterType => ({
   id: faker.database.mongodbObjectId(),
   name: faker.word.words({ count: 1 }),
   values: Array.from({ length: 3 }, () => filterValuesMock()),
@@ -22,17 +23,3 @@ const filterMock = (): FilterType => ({
 
 export const filtersMock = (): FilterType[] =>
   Array.from({ length: 3 }, () => filterMock())
-
-export const filterValueModelMock = (): FilterValueModel =>
-  new FilterValueModel(filterValuesMock(), filterModelMock())
-
-export const filterModelMock = (): FilterModel =>
-  new FilterModel(filterMock(), searchModelMock())
-
-export const filtersModelMock = (): Map<string, FilterModel> =>
-  new Map(
-    filtersMock().map((item) => [
-      item.id,
-      new FilterModel(item, searchModelMock()),
-    ])
-  )

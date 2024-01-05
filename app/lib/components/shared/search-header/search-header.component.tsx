@@ -1,11 +1,10 @@
 import { Input, Header } from '@/lib/components/shared'
 import { SEARCH } from '@/lib/components/shared/search-header/search-header.constants'
-import { SearchHeaderProps } from '@/lib/components/shared/search-header/search-header.types'
 import { INPUTS_NAME } from '@/lib/constants/home.constants'
-import { useProductsList } from '@/lib/contexts/product-list'
+import { useSearch } from '@/store/features/search/use-search.hooks'
 
 const SearchHeader = () => {
-  const { onParamsChange, query } = useProductsList()
+  const { onQueryChange, onParamsChange, query } = useSearch()
 
   return (
     <Header>
@@ -32,7 +31,7 @@ const SearchHeader = () => {
           defaultValue={query}
           placeholder={SEARCH.PLACEHOLDER}
           endAdornment
-          onChange={onParamsChange}
+          onChange={(item) => onQueryChange(item[INPUTS_NAME.QUERY])}
         />
       </form>
     </Header>

@@ -1,10 +1,10 @@
 import { Filters, Popover } from '@/lib/components/shared'
-import { useProductsList } from '@/lib/contexts/product-list'
 import styles from './filters-sidebar.module.css'
-import { ReactElement, useState } from 'react'
+import { useState } from 'react'
 import useBreakpoint from '@/lib/hooks/use-breakpoint'
 import { cx } from '@/lib/utils/class-name.utils'
 import { PopoverContentChildrenProps } from '@/lib/components/shared/popover/popover.types'
+import { useSearch } from '@/store/features/search/use-search.hooks'
 
 const FiltersSidebar = () => {
   const [open, setOpen] = useState(false)
@@ -32,7 +32,7 @@ const FiltersSidebar = () => {
 const FiltersSidebarDesktop: React.FC<PopoverContentChildrenProps> = ({
   onRequestClose,
 }) => {
-  const { filters, onParamsChange } = useProductsList()
+  const { filters, onParamsChange } = useSearch()
 
   const handleChange = (data: { [key: string]: string }) => {
     onParamsChange(data)

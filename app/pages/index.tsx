@@ -3,24 +3,27 @@ import styles from '@/lib/styles/home.module.css'
 import {
   CustomHead,
   Dropdown,
-  Filters,
   FiltersSidebar,
   SearchHeader,
 } from '@/lib/components/shared'
 import ProductList from '@/lib/components/shared/product-list'
-import { useProductsList } from '@/lib/contexts/product-list/use-product-list.hooks'
-import { productRequests } from '@/lib/services/product-list-requests.service'
+import { productRequests } from '@/lib/services/search-requests.service'
 import { GetServerSidePropsContext } from 'next'
-import { DEFAULT_PRODUCT_FILTERS } from '@/lib/contexts/product-list'
 import { capitalizeFirstLetter } from '@/lib/utils/string.utils'
 import { HOME_SEO, INPUTS_NAME, SORT } from '@/lib/constants/home.constants'
 import { cx } from '@/lib/utils/class-name.utils'
-import { SearchType } from '@/lib/models/types/search.type'
-import { searchValidParams } from '@/lib/utils/url.utils'
+import { useSearch } from '@/store/features/search/use-search.hooks'
+import { makeStore } from '@/store'
+import {
+  searchDataTransform,
+  searchValidParams,
+} from '@/store/features/search/search.utils'
+import { DEFAULT_SEARCH_FILTERS } from '@/store/features/search/search.constants'
+import { replaceUndefinedWithNull } from '@/lib/utils/object.utils'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function HomePage() {
-  const productList = useProductsList()
+  const productList = useSearch()
   const { products, sort, query, filters, onParamsChange } = productList
 
   return (
@@ -34,9 +37,10 @@ export default function HomePage() {
         description={HOME_SEO.DESCRIPTION}
       />
       <SearchHeader />
+      {/* <button onClick={handleQuery}>test</button> */}
       <main className={cx(inter.className, styles.main)}>
         <div className={styles.container}>
-          {products.size > 0 &&
+          {products.length > 0 &&
             sort?.available &&
             sort.available.length > 0 && (
               <div className={styles.sortWrapper}>
@@ -49,14 +53,14 @@ export default function HomePage() {
                 />
               </div>
             )}
-          <div className={styles.content}>
-            {filters.size > 0 && <FiltersSidebar />}
-            {products.size > 0 && (
+          {products?.length > 0 && (
+            <div className={styles.content}>
+              {filters.length > 0 && <FiltersSidebar />}
               <section className={styles.productListWrapper}>
                 <ProductList products={products} />
               </section>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </main>
     </>
@@ -66,14 +70,15 @@ export default function HomePage() {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { query } = context
 
-  const initialFilters = searchValidParams({
-    ...DEFAULT_PRODUCT_FILTERS,
-    ...query,
-  })
-  const initialSearchData = await productRequests.search(initialFilters)
+  const filters = { ...DEFAULT_SEARCH_FILTERS, ...query }
+  const searchData = await productRequests.search(searchValidParams(filters))
+  const initialSearchData = searchDataTransform(searchData)
+  const serializableSearchData = replaceUndefinedWithNull(initialSearchData)
+  const store = makeStore({ search: serializableSearchData })
+
   return {
     props: {
-      initialSearchData,
+      initialReduxState: store.getState(),
     },
   }
 }

@@ -1,5 +1,3 @@
-import { Product } from '@/lib/models/classes/product.model'
+import { ProductState } from '@/store/features/search/search.types'
 
-export type ProductListProps = {
-  products: Map<string, Product>
-}
+export type ProductListProps = { products: ProductState[] }

@@ -1,4 +1,4 @@
-import { SortType } from '@/lib/models/types/sort.type'
+import { SortType } from '@/store/features/search/search.types'
 import { faker } from '@faker-js/faker'
 
 export const sortMock = (): SortType => ({

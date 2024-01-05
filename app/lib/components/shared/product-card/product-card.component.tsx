@@ -21,15 +21,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <div className={styles.priceShippingWrapper}>
           <div className={styles.price}>
             {formatCurrency(product.price.amount, product.price.currency)}
-            {product.freeShipping && (
+            {product.free_shipping && (
               <span
                 data-testid={TEST_IDS.SHIPPING_ICON}
                 className={styles.freeShipping}
               ></span>
             )}
           </div>
-          {product.address.stateName && (
-            <div className={styles.location}>{product.address.stateName}</div>
+          {product.address?.state_name && (
+            <div className={styles.location}>{product.address.state_name}</div>
           )}
         </div>
         <div className={styles.description}>

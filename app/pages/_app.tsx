@@ -2,12 +2,14 @@ import '@/lib/styles/globals.css'
 import '@/lib/styles/variables.css'
 
 import type { AppProps } from 'next/app'
-import ProductListProvider from '@/lib/contexts/product-list/product-list.provider'
+import StoreProvider from '@/store/store.provider'
+import { makeStore } from '@/store'
 
 export default function App({ Component, pageProps }: AppProps) {
+  const initialState = makeStore(pageProps.initialReduxState)
   return (
-    <ProductListProvider ssrData={pageProps.initialSearchData}>
+    <StoreProvider initialState={initialState.getState()}>
       <Component {...pageProps} />
-    </ProductListProvider>
+    </StoreProvider>
   )
 }

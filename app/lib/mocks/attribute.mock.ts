@@ -1,4 +1,4 @@
-import { AttributeType } from '@/lib/models/types/attribute.type'
+import { AttributeType } from '@/store/features/search/search.types'
 import { faker } from '@faker-js/faker'
 
 export const attributeMock = (

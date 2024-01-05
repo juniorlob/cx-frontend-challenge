@@ -8,19 +8,17 @@ const Filters = ({ filters, onFilterChange }: FiltersProps) => {
     onFilterChange?.(currentFilter)
   }
 
-  const filtersItems = Array.from(filters.values() || []).flatMap(
-    (filterItem) => {
-      const renderFunctions = filtersRenderer[filterItem.id]
-      return renderFunctions ? (
-        <Filter
-          key={filterItem.id}
-          filter={filterItem}
-          setFilter={handleFilterChange}
-          renderFunctions={renderFunctions}
-        />
-      ) : null
-    }
-  )
+  const filtersItems = filters.flatMap((filterItem) => {
+    const renderFunctions = filtersRenderer[filterItem.id]
+    return renderFunctions ? (
+      <Filter
+        key={filterItem.id}
+        filter={filterItem}
+        setFilter={handleFilterChange}
+        renderFunctions={renderFunctions}
+      />
+    ) : null
+  })
 
   return <section className={styles.filtersSection}>{filtersItems}</section>
 }

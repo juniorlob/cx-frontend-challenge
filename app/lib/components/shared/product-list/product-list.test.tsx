@@ -1,10 +1,10 @@
 import { ProductList } from '@/lib/components/shared'
 import { PRODUCT_LIST_TEST_IDS } from '@/lib/components/shared/product-list/product-list.constants'
-import { productListModelMock } from '@/lib/mocks/product.mock'
+import { productsMock } from '@/lib/mocks/product.mock'
 import { act, axe, render, screen } from '@/lib/utils/jest-wrapper.utils'
 
 describe('ProductList Component', () => {
-  const products = productListModelMock
+  const products = productsMock()
 
   test('should be accessible', async () => {
     const { container } = await act(async () =>
@@ -23,6 +23,6 @@ describe('ProductList Component', () => {
     const productCards = screen.getAllByTestId(
       PRODUCT_LIST_TEST_IDS.PRODUCT_CARD
     )
-    expect(productCards.length).toBe(products.size)
+    expect(productCards.length).toBe(products.length)
   })
 })

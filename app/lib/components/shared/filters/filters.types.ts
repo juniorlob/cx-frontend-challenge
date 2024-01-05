@@ -1,6 +1,6 @@
-import { ContextFilters } from '@/lib/contexts/product-list/product-list.types'
+import { FilterType } from '@/store/features/search/search.types'
 
 export type FiltersProps = {
   onFilterChange?: (data: { [key: string]: string }) => void
-  filters: ContextFilters
+  filters: FilterType[]
 }

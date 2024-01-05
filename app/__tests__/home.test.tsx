@@ -1,7 +1,6 @@
 import React from 'react'
 import Home from '@/pages'
-import * as productListHook from '@/lib/contexts/product-list/use-product-list.hooks'
-import { productListModelMock, productMock } from '@/lib/mocks/product.mock'
+import * as searchHook from '@/store/features/search/use-search.hooks'
 import {
   act,
   axe,
@@ -10,42 +9,55 @@ import {
   screen,
   waitFor,
 } from '@/lib/utils/jest-wrapper.utils'
-import { Product } from '@/lib/models/classes/product.model'
 import { sortMock, sortsMock } from '@/lib/mocks/sort.mock'
-import { searchMock } from '@/lib/mocks/search.mock'
 import { faker } from '@faker-js/faker'
 import { SEARCH } from '@/lib/components/shared/search-header/search-header.constants'
+import { productMock, productsMock } from '@/lib/mocks/product.mock'
+import { filtersMock } from '@/lib/mocks/filters.mock'
 
-jest.mock('@/lib/contexts/product-list/use-product-list.hooks')
+jest.mock('@/store/features/search/use-search.hooks')
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }))
 
-const mockedUseProductsList =
-  productListHook.useProductsList as jest.MockedFunction<
-    typeof productListHook.useProductsList
-  >
+const mockedUseProductsList = searchHook.useSearch as jest.MockedFunction<
+  typeof searchHook.useSearch
+>
 
 const productMockItem = productMock()
-const searchMockItem = searchMock()
+const productMocks = productsMock()
 const currentSort = sortMock()
 const availableSort = [...sortsMock(), currentSort]
 
 describe('Home Page', () => {
+  beforeAll(() => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn().mockImplementation((query) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      })),
+    })
+  })
+
   beforeEach(() => {
     mockedUseProductsList.mockReturnValue({
-      products: productListModelMock.set(
-        productMockItem.id,
-        new Product(productMockItem)
-      ),
+      products: [...productMocks, productMockItem],
       sort: {
         available: availableSort,
         current: currentSort,
       },
       onParamsChange: jest.fn(),
       query: faker.word.words({ count: 1 }),
-      filters: {},
+      filters: [],
+      onQueryChange: jest.fn(),
     })
   })
 
@@ -56,24 +68,22 @@ describe('Home Page', () => {
   })
 
   it('renders input and handles search', async () => {
-    const { onParamsChange } = mockedUseProductsList()
+    const { onQueryChange } = mockedUseProductsList()
     await act(async () => {
       render(<Home />)
     })
     fireEvent.change(screen.getByPlaceholderText(SEARCH.PLACEHOLDER), {
       target: { value: 'phone' },
     })
-    expect(onParamsChange).toHaveBeenCalledWith({ q: 'phone' })
+    expect(onQueryChange).toHaveBeenCalledWith('phone')
   })
 
   it('renders ProductList when there are products', async () => {
-    const initialSearchData = {
-      ...searchMockItem,
-      results: [...searchMockItem.results, productMockItem],
-    }
     await act(async () => {
       render(<Home />)
     })
+
+    screen.debug()
     expect(screen.getByText(productMockItem.title)).toBeInTheDocument()
   })
 
@@ -119,13 +129,14 @@ describe('Home Page', () => {
   })
 
   it('updates product list based on selected dropdown option', async () => {
-    const sortedProducts = productListModelMock
+    const sortedProducts = productMocks
     mockedUseProductsList.mockReturnValueOnce({
       products: sortedProducts,
       sort: { current: currentSort, available: availableSort },
       onParamsChange: function (): void {},
       query: faker.word.words({ count: 1 }),
-      filters: {},
+      filters: filtersMock(),
+      onQueryChange: function (): void {},
     })
 
     await act(async () => {

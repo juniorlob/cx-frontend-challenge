@@ -8,9 +8,11 @@ import { ICONS } from '@/lib/constants/icons.constants'
 
 const FilterLink = ({ value, setFilter }: FilterLinkProps) => {
   const linkBuilder = useQueryLinkBuilder()
-  const filterLink = linkBuilder({ [value.filter.id]: value.id })
-  const removeFilterLink = linkBuilder({ [value.filter.id]: '' })
-  const isActive = value.isActive
+
+  console.log({ value })
+  const filterLink = linkBuilder({ [value.filterId]: value.id })
+  const removeFilterLink = linkBuilder({ [value.filterId]: '' })
+  const isActive = value.active
 
   return (
     <Link
@@ -19,8 +21,8 @@ const FilterLink = ({ value, setFilter }: FilterLinkProps) => {
       shallow
       onClick={(event) => {
         event.preventDefault()
-        if (isActive) return setFilter({ [value.filter.id]: '' })
-        setFilter({ [value.filter.id]: value.id })
+        if (isActive) return setFilter({ [value.filterId]: '' })
+        setFilter({ [value.filterId]: value.id })
       }}
     >
       <span>{value.name}</span>

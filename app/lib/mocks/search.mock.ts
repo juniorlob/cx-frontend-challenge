@@ -1,17 +1,12 @@
-import {
-  productListModelMock,
-  productMock,
-  productsMock,
-} from '@/lib/mocks/product.mock'
-import { Search } from '@/lib/models/classes/search.model'
+import { productsMock } from '@/lib/mocks/product.mock'
 import { sortMock, sortsMock } from '@/lib/mocks/sort.mock'
-import { SearchType } from '@/lib/models/types/search.type'
 import { filtersMock } from '@/lib/mocks/filters.mock'
 import { faker } from '@faker-js/faker'
+import { SearchState } from '@/store/features/search/search.types'
 
-export const searchMock = (): SearchType => {
+export const searchMock = (): SearchState => {
   return {
-    results: productsMock(),
+    products: productsMock(),
     available_sorts: sortsMock(),
     sort: sortMock(),
     query: faker.word.words({ count: 1 }),
@@ -20,5 +15,3 @@ export const searchMock = (): SearchType => {
     paging: { limit: faker.number.int() },
   }
 }
-
-export const searchModelMock = (): Search => new Search(searchMock())

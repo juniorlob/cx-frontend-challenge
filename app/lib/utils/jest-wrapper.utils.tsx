@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { RenderOptions, render as rtlRender } from '@testing-library/react'
-import { ProductListProvider } from '@/lib/contexts/product-list'
 import { toHaveNoViolations } from 'jest-axe'
 
 function render(ui: React.ReactElement, options: RenderOptions = {}) {

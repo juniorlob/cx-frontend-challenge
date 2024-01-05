@@ -1,9 +1,9 @@
-import { FilterModel } from '@/lib/models/classes/filters.model'
+import { FilterType } from '@/store/features/search/search.types'
 
 export type SetFilterType = (filter: Record<string, string>) => void
 
 export type FilterRenderFunctionProps = {
-  filter: FilterModel
+  filter: FilterType
   setFilter: SetFilterType
 }
 
@@ -13,7 +13,7 @@ export type FilterRenderFunction = ({
 }: FilterRenderFunctionProps) => React.ReactNode
 
 export type FilterProps = {
-  filter: FilterModel
+  filter: FilterType
   setFilter: SetFilterType
   renderFunctions: FilterRenderFunction[]
 }
