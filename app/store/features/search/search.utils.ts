@@ -8,7 +8,6 @@ import {
 } from '@/store/features/search/search.types'
 
 export const searchDataTransform = (searchData: GetSearchType): SearchState => {
-  console.log({ searchData })
   return {
     available_filters: searchData.available_filters,
     filters: searchData.filters || [],
