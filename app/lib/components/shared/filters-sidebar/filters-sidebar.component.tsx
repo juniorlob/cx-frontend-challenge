@@ -8,26 +8,25 @@ import { useSearch } from '@/store/features/search/use-search.hooks'
 
 const FiltersSidebar = () => {
   const [open, setOpen] = useState(false)
-  const isTablet = useBreakpoint('md')
-  const isDesktop = useBreakpoint('lg')
+  const isMobile = useBreakpoint('sm')
 
-  if (!isTablet && !isDesktop)
-    return (
-      <>
-        <Popover
-          onStateChange={setOpen}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          triggerContent={
-            <button className={cx(styles.button, open && styles.buttonOpen)}>
-              Filtrar
-            </button>
-          }
-        >
-          <FiltersSidebarDesktop />
-        </Popover>
-      </>
-    )
-  return <FiltersSidebarDesktop />
+  if (!isMobile) return <FiltersSidebarDesktop />
+
+  return (
+    <>
+      <Popover
+        onStateChange={setOpen}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        triggerContent={
+          <button className={cx(styles.button, open && styles.buttonOpen)}>
+            Filtrar
+          </button>
+        }
+      >
+        <FiltersSidebarDesktop />
+      </Popover>
+    </>
+  )
 }
 
 const FiltersSidebarDesktop: React.FC<PopoverContentChildrenProps> = ({
