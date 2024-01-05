@@ -1,5 +1,3 @@
-// import { fetchProducts } from '@/store/features/search/search.thunks'
-import { REDUCERS_PREFIX } from '@/store/features/search/search.constants'
 import { fetchProducts } from '@/store/features/search/search.thunks'
 import { SearchState } from '@/store/features/search/search.types'
 import { searchDataTransform } from '@/store/features/search/search.utils'
@@ -34,4 +32,4 @@ export const searchExtraReducers = (
     })
 }
 
-export const searchReducers = { [REDUCERS_PREFIX.SET_QUERY]: setQuery }
+export const searchReducers = { setQuery }

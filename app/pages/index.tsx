@@ -23,8 +23,7 @@ import { replaceUndefinedWithNull } from '@/lib/utils/object.utils'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function HomePage() {
-  const productList = useSearch()
-  const { products, sort, query, filters, onParamsChange } = productList
+  const { products, sort, query, filters, onParamsChange } = useSearch()
 
   return (
     <>
@@ -37,7 +36,6 @@ export default function HomePage() {
         description={HOME_SEO.DESCRIPTION}
       />
       <SearchHeader />
-      {/* <button onClick={handleQuery}>test</button> */}
       <main className={cx(inter.className, styles.main)}>
         <div className={styles.container}>
           {products.length > 0 &&
