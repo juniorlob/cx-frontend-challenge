@@ -18,8 +18,8 @@ Antes de começar, certifique-se de ter instalado:
 Clone o repositório:
 
 ```bash
-git clone [URL_DO_SEU_REPOSITORIO]
-cd [NOME_DO_SEU_PROJETO]
+git clone https://github.com/juniorlob/cx-frontend-challenge/
+cd cx-frontend-challenge
 ```
 
 Instale as dependências do projeto:
